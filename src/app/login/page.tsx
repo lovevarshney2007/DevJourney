@@ -1,0 +1,124 @@
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Code2, Eye, EyeOff, ArrowRight } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { loginSchema, LoginInput } from "@/lib/validations";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginInput) => {
+    try {
+      const res = await axios.post("/api/auth/login", data);
+      const user = res.data.data;
+      toast.success(`Welcome back, ${user.name}!`);
+      router.push(user.role === "admin" ? "/admin/dashboard" : "/dashboard");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        toast.error(err.response?.data?.error || "Login failed");
+      }
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-bg flex items-center justify-center p-4">
+      <div className="absolute inset-0 hero-gradient pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative w-full max-w-md"
+      >
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
+            <div className="p-2 rounded-xl bg-accent/10 border border-accent/20">
+              <Code2 className="h-6 w-6 text-accent" />
+            </div>
+            <span className="font-bold text-xl text-text-primary">DevJourney</span>
+          </Link>
+          <h1 className="text-2xl font-bold text-text-primary">Welcome back</h1>
+          <p className="text-text-muted text-sm mt-1.5">
+            Sign in to your CCC AKGEC account
+          </p>
+        </div>
+
+        {/* Card */}
+        <div className="card">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <Input
+              label="AKGEC Email"
+              type="email"
+              placeholder="love2510084@akgec.ac.in"
+              error={errors.email?.message}
+              {...register("email")}
+            />
+
+            <div className="flex flex-col gap-1.5">
+              <label className="label">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className={`input pr-10 ${errors.password ? "input-error" : ""}`}
+                  {...register("password")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-xs text-danger">{errors.password.message}</p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              loading={isSubmitting}
+              className="w-full"
+              rightIcon={<ArrowRight className="h-4 w-4" />}
+            >
+              Sign in
+            </Button>
+          </form>
+
+          <div className="mt-5 pt-5 border-t border-border text-center">
+            <p className="text-sm text-text-muted">
+              Don&apos;t have an account?{" "}
+              <Link href="/register" className="text-accent hover:text-accent-hover font-medium transition-colors">
+                Create one
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        <p className="text-center text-xs text-text-muted mt-6">
+          Only AKGEC students with <span className="text-text-secondary">@akgec.ac.in</span> emails can register.
+        </p>
+      </motion.div>
+    </div>
+  );
+}

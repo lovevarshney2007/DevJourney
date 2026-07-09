@@ -1,0 +1,58 @@
+import { NextRequest, NextResponse } from "next/server";
+import { connectDB } from "@/lib/db";
+import { getAuthUser, requireAdmin } from "@/lib/auth";
+import User from "@/models/User";
+import Task from "@/models/Task";
+import Submission from "@/models/Submission";
+
+// GET /api/admin/dashboard
+export async function GET(req: NextRequest) {
+  try {
+    await connectDB();
+    const authUser = await getAuthUser(req);
+    requireAdmin(authUser);
+
+    const [
+      totalStudents,
+      totalTasks,
+      publishedTasks,
+      pendingReviews,
+      recentSubmissions,
+      topStudents,
+    ] = await Promise.all([
+      User.countDocuments({ role: "student" }),
+      Task.countDocuments(),
+      Task.countDocuments({ status: "published" }),
+      Submission.countDocuments({ status: "pending" }),
+      Submission.find()
+        .populate("taskId", "title domains")
+        .populate("studentId", "name email studentNumber avatar")
+        .sort({ createdAt: -1 })
+        .limit(10)
+        .lean(),
+      User.find({ role: "student" })
+        .select("name email studentNumber avatar totalPoints completedTasks")
+        .sort({ totalPoints: -1 })
+        .limit(5)
+        .lean(),
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        totalStudents,
+        totalTasks,
+        publishedTasks,
+        pendingReviews,
+        recentSubmissions,
+        topStudents,
+      },
+    });
+  } catch (error) {
+    console.error("[ADMIN DASHBOARD]", error);
+    if (error instanceof Error && error.message.includes("Forbidden")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
+    }
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
+  }
+}
