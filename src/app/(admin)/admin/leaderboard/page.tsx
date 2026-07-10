@@ -20,8 +20,8 @@ export default function AdminLeaderboardPage() {
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <PageHeader 
         title="Leaderboard" 
-        subtitle="Top performing students across all domains"
-        action={
+        subtitle="Rankings and total points across all domains"
+        actions={
           <div className="w-72">
             <Input 
               placeholder="Search students..." 

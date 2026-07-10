@@ -8,11 +8,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { ArrowLeft, Save, Plus, Trash2 } from "lucide-react";
 import { PageHeader, Skeleton } from "@/components/ui/Common";
-import { Input, TextArea } from "@/components/ui/Input";
+import { Input, Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { createTaskSchema, CreateTaskInput, taskResourceSchema } from "@/lib/validations";
 import { ITask } from "@/types";
 import { z } from "zod";
+import { useEffect } from "react";
 
 export default function EditTaskPage() {
   const { id } = useParams<{ id: string }>();
@@ -79,7 +80,7 @@ export default function EditTaskPage() {
   };
 
   const currentResources = watch("resources") || [];
-  const addResource = () => setValue("resources", [...currentResources, { title: "", url: "", type: "link" }]);
+  const addResource = () => setValue("resources", [...currentResources, { title: "", url: "" }]);
   const removeResource = (index: number) => setValue("resources", currentResources.filter((_, i) => i !== index));
 
   if (isLoading) {
@@ -105,7 +106,7 @@ export default function EditTaskPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="card space-y-4">
           <Input label="Task Title *" error={errors.title?.message} {...register("title")} />
-          <TextArea label="Description *" rows={6} error={errors.description?.message} {...register("description")} />
+          <Textarea label="Description *" rows={6} error={errors.description?.message} {...register("description")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input type="number" label="Maximum Points *" error={errors.points?.message} {...register("points", { valueAsNumber: true })} />

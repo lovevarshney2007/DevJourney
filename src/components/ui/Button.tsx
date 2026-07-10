@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost" | "danger" | "success";
+  variant?: "primary" | "secondary" | "ghost" | "danger" | "success" | "outline";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
   leftIcon?: React.ReactNode;
@@ -18,6 +18,7 @@ const variantClasses = {
   ghost: "btn-ghost",
   danger: "btn-danger",
   success: "btn-success",
+  outline: "btn-outline border border-border hover:bg-bg-hover bg-transparent text-text-primary",
 };
 
 const sizeClasses = {

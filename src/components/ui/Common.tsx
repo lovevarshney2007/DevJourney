@@ -92,16 +92,17 @@ export function StatCard({
 interface PageHeaderProps {
   title: string;
   description?: string;
+  subtitle?: string;
   actions?: React.ReactNode;
 }
 
-export function PageHeader({ title, description, actions }: PageHeaderProps) {
+export function PageHeader({ title, description, subtitle, actions }: PageHeaderProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
       <div>
         <h1 className="text-2xl font-bold text-text-primary">{title}</h1>
-        {description && (
-          <p className="text-text-muted text-sm mt-1">{description}</p>
+        {(description || subtitle) && (
+          <p className="text-text-muted text-sm mt-1">{description || subtitle}</p>
         )}
       </div>
       {actions && <div className="flex items-center gap-3">{actions}</div>}

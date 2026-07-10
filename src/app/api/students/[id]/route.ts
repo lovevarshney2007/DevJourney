@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     
     // Fetch user details
     const student = await User.findById(id).select("-password").lean();
-    if (!student || student.role !== "student") {
+    if (!student || (student as any).role !== "student") {
       return NextResponse.json({ success: false, error: "Student not found" }, { status: 404 });
     }
 

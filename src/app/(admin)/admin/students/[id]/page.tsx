@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
-import { ArrowLeft, ChevronRight, Mail, Hash, Calendar, Trophy, CheckCircle, ExternalLink } from "lucide-react";
+import { ArrowLeft, ChevronRight, Mail, Hash, Calendar, Trophy, CheckCircle, ExternalLink, Users } from "lucide-react";
 import { PageHeader, Skeleton, Avatar, EmptyState } from "@/components/ui/Common";
 import { StatusBadge, DomainBadge } from "@/components/ui/Badges";
 import { formatRelative, formatDate } from "@/lib/utils";
@@ -161,7 +161,7 @@ export default function AdminStudentDetailPage() {
                         </td>
                         <td>
                           {sub.status === "approved" ? (
-                            <span className="text-sm font-semibold text-success">+{sub.pointsAwarded || 0}</span>
+                            <span className="font-semibold text-text-primary">+{(sub.taskId as any).points} pts</span>
                           ) : (
                             <span className="text-sm text-text-muted">—</span>
                           )}
