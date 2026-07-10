@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db";
 import { getAuthUser, requireAdmin } from "@/lib/auth";
 import { createTaskSchema } from "@/lib/validations";
 import Task from "@/models/Task";
+import "@/models/User";
 
 // GET /api/tasks — list tasks
 export async function GET(req: NextRequest) {

@@ -4,6 +4,7 @@ import { getAuthUser, requireAdmin } from "@/lib/auth";
 import { createTaskSchema } from "@/lib/validations";
 import Task from "@/models/Task";
 import Submission from "@/models/Submission";
+import "@/models/User";
 
 // GET /api/tasks/[id]
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

@@ -58,19 +58,27 @@ export default function TaskDetailPage() {
     const files = e.target.files;
     if (!files?.length) return;
     setUploadingFiles(true);
+    const toUpload = Array.from(files);
     try {
-      for (const file of Array.from(files)) {
+      for (const file of toUpload) {
+        // Validate size (max 50MB)
+        if (file.size > 50 * 1024 * 1024) {
+          toast.error(`${file.name} is too large (max 50MB)`);
+          continue;
+        }
         const fd = new FormData();
         fd.append("file", file);
         fd.append("folder", "devjourney/submissions");
         const res = await axios.post("/api/upload", fd);
         setUploadedFiles((prev) => [...prev, { url: res.data.data.url, name: file.name }]);
+        toast.success(`${file.name} uploaded`);
       }
-      toast.success("Files uploaded");
     } catch {
-      toast.error("File upload failed");
+      toast.error("File upload failed. Check your connection and try again.");
     } finally {
       setUploadingFiles(false);
+      // Reset input so same file can be re-selected
+      e.target.value = "";
     }
   };
 
@@ -174,14 +182,42 @@ export default function TaskDetailPage() {
                 <h3 className="font-semibold text-text-primary">Your Submission</h3>
                 <StatusBadge status={mySubmission.status} isLate={mySubmission.isLate} />
               </div>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-2.5 text-sm">
                 <div className="flex items-center gap-2 text-text-secondary">
-                  <Github className="h-4 w-4" />
+                  <Github className="h-4 w-4 flex-shrink-0" />
                   <a href={mySubmission.githubUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline truncate">
                     {mySubmission.githubUrl}
                   </a>
                 </div>
-                <p className="text-xs text-text-muted">
+                {mySubmission.deployUrl && (
+                  <div className="flex items-center gap-2 text-text-secondary">
+                    <ExternalLink className="h-4 w-4 flex-shrink-0" />
+                    <a href={mySubmission.deployUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline truncate">
+                      {mySubmission.deployUrl}
+                    </a>
+                  </div>
+                )}
+                {mySubmission.files && mySubmission.files.length > 0 && (
+                  <div className="pt-2 border-t border-border">
+                    <p className="text-xs text-text-muted mb-1.5 uppercase tracking-wider font-medium">Attached Files</p>
+                    <div className="space-y-1">
+                      {mySubmission.files.map((fileUrl, i) => (
+                        <a
+                          key={i}
+                          href={fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-xs text-accent hover:underline"
+                        >
+                          <FileText className="h-3.5 w-3.5" />
+                          {fileUrl.split("/").pop()?.split("?")[0] || `File ${i + 1}`}
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <p className="text-xs text-text-muted pt-1">
                   {mySubmission.resubmittedAt
                     ? `Resubmitted ${formatDateTime(mySubmission.resubmittedAt)} (v${mySubmission.version})`
                     : `Submitted ${formatDateTime(mySubmission.submittedAt)}`}
@@ -265,22 +301,50 @@ export default function TaskDetailPage() {
 
                   {/* File Upload */}
                   <div>
-                    <label className="label">Attach Files (optional)</label>
-                    <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-accent/40 transition-colors bg-bg-hover">
-                      <Upload className="h-5 w-5 text-text-muted" />
-                      <span className="text-sm text-text-muted">
-                        {uploadingFiles ? "Uploading..." : "Click to upload files"}
-                      </span>
-                      <input type="file" multiple className="hidden" onChange={handleFileUpload} disabled={uploadingFiles} />
+                    <label className="label">Attach Files <span className="text-text-muted font-normal">(screenshots, docs, reports)</span></label>
+                    <label className={`flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+                      uploadingFiles ? "border-accent/40 bg-accent/5" : "bg-bg-hover border-border hover:border-accent/40"
+                    }`}>
+                      {uploadingFiles ? (
+                        <>
+                          <div className="h-5 w-5 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                          <span className="text-sm text-text-muted">Uploading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-5 w-5 text-text-muted" />
+                          <span className="text-sm text-text-muted">Click to attach files</span>
+                          <span className="text-xs text-text-muted">PDF, images, docs — max 50MB each</span>
+                        </>
+                      )}
+                      <input
+                        type="file"
+                        multiple
+                        className="hidden"
+                        onChange={handleFileUpload}
+                        disabled={uploadingFiles}
+                        accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.gif,.zip,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      />
                     </label>
                     {uploadedFiles.length > 0 && (
-                      <div className="mt-2 space-y-1">
+                      <div className="mt-3 space-y-2">
                         {uploadedFiles.map((f, i) => (
-                          <div key={i} className="flex items-center gap-2 text-xs text-success">
-                            <FileText className="h-3.5 w-3.5" />
-                            {f.name}
-                            <button type="button" onClick={() => setUploadedFiles((prev) => prev.filter((_, j) => j !== i))}>
-                              <X className="h-3 w-3" />
+                          <div key={i} className="flex items-center gap-2 p-2.5 rounded-lg bg-success/5 border border-success/20">
+                            <FileText className="h-4 w-4 text-success flex-shrink-0" />
+                            <a
+                              href={f.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 text-xs text-success hover:underline truncate"
+                            >
+                              {f.name}
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => setUploadedFiles((prev) => prev.filter((_, j) => j !== i))}
+                              className="text-text-muted hover:text-danger transition-colors"
+                            >
+                              <X className="h-3.5 w-3.5" />
                             </button>
                           </div>
                         ))}

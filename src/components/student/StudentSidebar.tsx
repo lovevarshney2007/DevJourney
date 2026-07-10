@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -10,7 +11,6 @@ import {
   User,
   Megaphone,
   LogOut,
-  Code2,
   Menu,
   X,
 } from "lucide-react";
@@ -50,13 +50,19 @@ export function StudentSidebar({ user }: StudentSidebarProps) {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-5 border-b border-border">
-        <div className="p-1.5 rounded-lg bg-accent/10 border border-accent/20">
-          <Code2 className="h-5 w-5 text-accent" />
+      <div className="flex items-center gap-3 px-4 py-4 border-b border-border">
+        <div className="relative h-9 w-9 flex-shrink-0 rounded-xl overflow-hidden ring-1 ring-accent/30 bg-bg-hover">
+          <Image
+            src="/images/ccclogo.png"
+            alt="CCC Logo"
+            fill
+            className="object-contain p-0.5"
+            priority
+          />
         </div>
-        <div>
-          <p className="font-bold text-text-primary text-sm">DevJourney</p>
-          <p className="text-[10px] text-text-muted">CCC · AKGEC</p>
+        <div className="min-w-0">
+          <p className="font-bold text-text-primary text-sm leading-tight">DevJourney</p>
+          <p className="text-[10px] text-text-muted leading-tight">CCC · AKGEC</p>
         </div>
       </div>
 
@@ -85,7 +91,7 @@ export function StudentSidebar({ user }: StudentSidebarProps) {
           <Avatar name={user.name} src={user.avatar} size="sm" />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-text-primary truncate">{user.name}</p>
-            <p className="text-[11px] text-text-muted truncate">{user.studentNumber}</p>
+            <p className="text-[11px] text-text-muted truncate">{user.studentNumber || user.email}</p>
           </div>
         </div>
         <button onClick={handleLogout} className="sidebar-item w-full text-danger hover:text-danger hover:bg-danger/10">
@@ -105,8 +111,16 @@ export function StudentSidebar({ user }: StudentSidebarProps) {
 
       {/* Mobile header */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-bg-secondary border-b border-border px-4 py-3 flex items-center justify-between glass">
-        <div className="flex items-center gap-2">
-          <Code2 className="h-5 w-5 text-accent" />
+        <div className="flex items-center gap-2.5">
+          <div className="relative h-7 w-7 rounded-lg overflow-hidden ring-1 ring-accent/30 bg-bg-hover">
+            <Image
+              src="/images/ccclogo.png"
+              alt="CCC Logo"
+              fill
+              className="object-contain p-0.5"
+              priority
+            />
+          </div>
           <span className="font-bold text-sm">DevJourney</span>
         </div>
         <button onClick={() => setOpen(true)} className="btn-ghost p-2">

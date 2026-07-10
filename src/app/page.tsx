@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  Code2,
   ArrowRight,
   CheckCircle,
   Users,
@@ -60,10 +60,16 @@ export default function LandingPage() {
     <div className="min-h-screen bg-bg text-text-primary overflow-x-hidden">
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border">
-        <div className="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-lg bg-accent/10 border border-accent/20">
-              <Code2 className="h-5 w-5 text-accent" />
+        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative h-9 w-9 flex-shrink-0 rounded-xl overflow-hidden ring-1 ring-accent/30 shadow-glow-sm">
+              <Image
+                src="/images/ccclogo.png"
+                alt="CCC Logo"
+                fill
+                className="object-contain p-0.5"
+                priority
+              />
             </div>
             <div>
               <span className="font-bold text-sm text-text-primary">DevJourney</span>
@@ -84,10 +90,28 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="hero-gradient min-h-screen flex items-center justify-center pt-20 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
+          {/* Logo Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-center mb-6"
+          >
+            <div className="relative h-20 w-20 rounded-2xl overflow-hidden ring-2 ring-accent/40 shadow-[0_0_40px_rgba(59,130,246,0.25)]">
+              <Image
+                src="/images/ccclogo.png"
+                alt="Cloud Computing Cell Logo"
+                fill
+                className="object-contain p-2"
+                priority
+              />
+            </div>
+          </motion.div>
+
           {/* Pill */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-medium mb-8"
           >
             <span className="relative flex h-2 w-2">
@@ -212,15 +236,20 @@ export default function LandingPage() {
         <div className="max-w-2xl mx-auto text-center">
           <div className="card bg-gradient-to-br from-accent/10 to-purple-500/10 border-accent/20">
             <div className="flex items-center justify-center mb-4">
-              <div className="p-3 rounded-2xl bg-accent/10 border border-accent/20">
-                <Users className="h-6 w-6 text-accent" />
+              <div className="relative h-14 w-14 rounded-xl overflow-hidden ring-1 ring-accent/30">
+                <Image
+                  src="/images/ccclogo.png"
+                  alt="CCC Logo"
+                  fill
+                  className="object-contain p-1"
+                />
               </div>
             </div>
             <h2 className="text-2xl font-bold text-text-primary mb-3">
               Ready to start your journey?
             </h2>
             <p className="text-text-muted mb-6 text-sm">
-              Join CCC AKGEC's developer platform. Use your AKGEC email to register.
+              Join CCC AKGEC&apos;s developer platform. Use your AKGEC email to register.
             </p>
             <Link href="/register" className="btn-primary btn-lg">
               Create your account
@@ -233,8 +262,15 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-border py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Code2 className="h-4 w-4 text-accent" />
+          <div className="flex items-center gap-2.5">
+            <div className="relative h-7 w-7 rounded-lg overflow-hidden ring-1 ring-border">
+              <Image
+                src="/images/ccclogo.png"
+                alt="CCC Logo"
+                fill
+                className="object-contain p-0.5"
+              />
+            </div>
             <span className="text-sm font-medium text-text-secondary">DevJourney</span>
             <span className="text-text-muted text-xs">— Cloud Computing Cell, AKGEC</span>
           </div>

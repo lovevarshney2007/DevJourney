@@ -6,7 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Code2, Eye, EyeOff, ArrowRight, Info } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Info } from "lucide-react";
+import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Input } from "@/components/ui/Input";
@@ -51,9 +52,9 @@ export default function RegisterPage() {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-            <div className="p-2 rounded-xl bg-accent/10 border border-accent/20">
-              <Code2 className="h-6 w-6 text-accent" />
+        <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
+            <div className="relative h-10 w-10 rounded-xl overflow-hidden ring-2 ring-accent/30 bg-bg-hover">
+              <Image src="/images/ccclogo.png" alt="CCC Logo" fill className="object-contain p-0.5" priority />
             </div>
             <span className="font-bold text-xl text-text-primary">DevJourney</span>
           </Link>

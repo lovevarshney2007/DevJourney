@@ -60,12 +60,13 @@ export const createTaskSchema = z.object({
   domains: z
     .array(z.enum(ALL_DOMAINS as [string, ...string[]]))
     .min(1, "At least one domain is required"),
-  deadline: z.string().datetime({ message: "Valid deadline is required" }),
+  deadline: z.string().min(1, "Deadline is required").refine((val) => !isNaN(Date.parse(val)), "Valid deadline is required"),
   points: z
     .number()
     .int()
     .min(1, "Points must be at least 1")
     .max(1000, "Points cannot exceed 1000"),
+  pdfUrl: z.string().url().optional().or(z.literal("")),
   resources: z.array(taskResourceSchema).default([]),
   status: z.enum(["draft", "published", "archived"]).default("draft"),
 });

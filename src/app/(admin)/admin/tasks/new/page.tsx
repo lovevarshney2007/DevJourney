@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Plus, Trash2, Upload, ArrowLeft, Link as LinkIcon } from "lucide-react";
+import { Plus, Trash2, Upload, ArrowLeft, FileText, CheckCircle } from "lucide-react";
 import { Input, Textarea, Select } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/Common";
@@ -19,8 +19,9 @@ import { cn } from "@/lib/utils";
 export default function NewTaskPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [pdfUploading, setPdfUploading] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState("");
+  const [docUploading, setDocUploading] = useState(false);
+  const [docUrl, setDocUrl] = useState("");
+  const [docName, setDocName] = useState("");
 
   const {
     register,
@@ -55,26 +56,33 @@ export default function NewTaskPage() {
     }
   };
 
-  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDocUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setPdfUploading(true);
+    // Accept only PDF and DOC types
+    const allowed = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+    if (!allowed.includes(file.type)) {
+      toast.error("Only PDF or Word documents allowed");
+      return;
+    }
+    setDocUploading(true);
     try {
       const fd = new FormData();
       fd.append("file", file);
-      fd.append("folder", "devjourney/tasks/pdfs");
+      fd.append("folder", "devjourney/tasks/docs");
       const res = await axios.post("/api/upload", fd);
-      setPdfUrl(res.data.data.url);
-      toast.success("PDF uploaded");
+      setDocUrl(res.data.data.url);
+      setDocName(file.name);
+      toast.success("Document uploaded successfully");
     } catch {
-      toast.error("PDF upload failed");
+      toast.error("Upload failed. Try again.");
     } finally {
-      setPdfUploading(false);
+      setDocUploading(false);
     }
   };
 
   const createMutation = useMutation({
-    mutationFn: (data: CreateTaskInput) => axios.post("/api/tasks", { ...data, pdfUrl }),
+    mutationFn: (data: CreateTaskInput) => axios.post("/api/tasks", { ...data, pdfUrl: docUrl }),
     onSuccess: () => {
       toast.success("Task created!");
       queryClient.invalidateQueries({ queryKey: ["admin-tasks"] });
@@ -164,24 +172,59 @@ export default function NewTaskPage() {
           </Select>
         </div>
 
-        {/* PDF Upload */}
+        {/* Assignment Document Upload */}
         <div className="card">
-          <h3 className="font-semibold text-text-primary mb-4">Assignment PDF (optional)</h3>
-          {pdfUrl ? (
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-success/10 border border-success/20">
-              <span className="text-sm text-success">PDF uploaded successfully</span>
-              <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline ml-auto">
-                Preview
-              </a>
-              <button type="button" onClick={() => setPdfUrl("")} className="text-danger text-xs">Remove</button>
+          <h3 className="font-semibold text-text-primary mb-1">Assignment Document <span className="text-text-muted font-normal text-xs">(optional)</span></h3>
+          <p className="text-xs text-text-muted mb-4">Upload a PDF or Word document with the full task details, rubric, or instructions for students.</p>
+          {docUrl ? (
+            <div className="flex items-center gap-3 p-4 rounded-xl bg-success/10 border border-success/20">
+              <div className="p-2 rounded-lg bg-success/10">
+                <CheckCircle className="h-5 w-5 text-success" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-success">Document uploaded</p>
+                <p className="text-xs text-text-muted truncate">{docName}</p>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <a href={docUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+                  Preview
+                </a>
+                <button
+                  type="button"
+                  onClick={() => { setDocUrl(""); setDocName(""); }}
+                  className="text-danger text-xs hover:underline"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           ) : (
-            <label className="flex flex-col items-center gap-2 p-8 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-accent/40 transition-colors bg-bg-hover">
-              <Upload className="h-6 w-6 text-text-muted" />
-              <span className="text-sm text-text-muted">
-                {pdfUploading ? "Uploading..." : "Click to upload PDF"}
-              </span>
-              <input type="file" accept=".pdf" className="hidden" onChange={handlePdfUpload} disabled={pdfUploading} />
+            <label className={`flex flex-col items-center gap-3 p-8 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
+              docUploading ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40 bg-bg-hover"
+            }`}>
+              {docUploading ? (
+                <>
+                  <div className="h-6 w-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                  <span className="text-sm text-text-muted">Uploading document...</span>
+                </>
+              ) : (
+                <>
+                  <div className="p-3 rounded-xl bg-bg-card border border-border">
+                    <FileText className="h-6 w-6 text-text-muted" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm text-text-secondary font-medium">Click to upload assignment document</p>
+                    <p className="text-xs text-text-muted mt-1">PDF or Word (.docx) — max 50MB</p>
+                  </div>
+                </>
+              )}
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                className="hidden"
+                onChange={handleDocUpload}
+                disabled={docUploading}
+              />
             </label>
           )}
         </div>
