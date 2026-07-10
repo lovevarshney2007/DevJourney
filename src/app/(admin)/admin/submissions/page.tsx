@@ -26,9 +26,9 @@ export default function AdminSubmissionsPage() {
     if (!search) return true;
     const student = s.studentId as IUser;
     const task = s.taskId as ITask;
-    const name = typeof student === "object" ? student.name?.toLowerCase() : "";
-    const title = typeof task === "object" ? task.title?.toLowerCase() : "";
-    return name.includes(search.toLowerCase()) || title.includes(search.toLowerCase());
+    const name = student && typeof student === "object" ? student.name?.toLowerCase() : "";
+    const title = task && typeof task === "object" ? task.title?.toLowerCase() : "";
+    return (name || "").includes(search.toLowerCase()) || (title || "").includes(search.toLowerCase());
   }) || [];
 
   return (
@@ -86,13 +86,13 @@ export default function AdminSubmissionsPage() {
                     <tr key={sub._id}>
                       <td>
                         <div className="flex items-center gap-2.5">
-                          <Avatar name={typeof student === "object" ? student.name : "?"} size="sm" />
+                          <Avatar name={student && typeof student === "object" ? student.name : "?"} size="sm" />
                           <div>
                             <p className="font-medium text-text-primary text-sm">
-                              {typeof student === "object" ? student.name : "—"}
+                              {student && typeof student === "object" ? student.name : "Unknown User"}
                             </p>
                             <p className="text-xs text-text-muted">
-                              {typeof student === "object" ? student.studentNumber : ""}
+                              {student && typeof student === "object" ? student.studentNumber : ""}
                             </p>
                           </div>
                         </div>
@@ -100,9 +100,9 @@ export default function AdminSubmissionsPage() {
                       <td>
                         <div>
                           <p className="text-sm text-text-primary max-w-[180px] truncate">
-                            {typeof task === "object" ? task.title : "—"}
+                            {task && typeof task === "object" ? task.title : "Deleted Task"}
                           </p>
-                          {typeof task === "object" && (
+                          {task && typeof task === "object" && (
                             <div className="flex gap-1 mt-1">
                               {task.domains?.slice(0, 1).map((d) => <DomainBadge key={d} domain={d} size="sm" />)}
                             </div>

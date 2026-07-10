@@ -164,13 +164,32 @@ export default function TaskDetailPage() {
               </div>
             )}
 
-            {/* PDF */}
+            {/* Document Viewer & Download */}
             {task.pdfUrl && (
-              <div className="mt-4">
-                <a href={task.pdfUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-sm">
-                  <Download className="h-4 w-4" />
-                  Download Assignment PDF
-                </a>
+              <div className="mt-8 pt-6 border-t border-border space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-text-primary">Assignment Document</h3>
+                  <a href={task.pdfUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-sm">
+                    <Download className="h-4 w-4" />
+                    Download Document
+                  </a>
+                </div>
+                
+                <div className="w-full h-[600px] rounded-xl overflow-hidden border border-border bg-bg-card shadow-sm">
+                  {task.pdfUrl.toLowerCase().includes('.pdf') ? (
+                    <iframe 
+                      src={task.pdfUrl} 
+                      className="w-full h-full" 
+                      title="Assignment Document"
+                    />
+                  ) : (
+                    <iframe 
+                      src={`https://docs.google.com/gview?url=${encodeURIComponent(task.pdfUrl)}&embedded=true`}
+                      className="w-full h-full" 
+                      title="Assignment Document"
+                    />
+                  )}
+                </div>
               </div>
             )}
           </div>

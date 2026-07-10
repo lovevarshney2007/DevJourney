@@ -85,13 +85,13 @@ export default function AdminDashboardPage() {
                     <Link key={sub._id} href={`/admin/submissions/${sub._id}`}>
                       <div className="flex items-center justify-between py-3.5 hover:bg-bg-hover px-1 rounded-lg transition-colors group">
                         <div className="flex items-center gap-3">
-                          <Avatar name={typeof student === "object" ? student.name : "?"} size="sm" />
+                          <Avatar name={student && typeof student === "object" ? student.name : "?"} size="sm" />
                           <div>
                             <p className="text-sm font-medium text-text-primary group-hover:text-accent transition-colors">
-                              {typeof student === "object" ? student.name : "Student"}
+                              {student && typeof student === "object" ? student.name : "Unknown Student"}
                             </p>
                             <p className="text-xs text-text-muted truncate max-w-[200px]">
-                              {typeof task === "object" ? task.title : "Task"}
+                              {task && typeof task === "object" ? task.title : "Deleted Task"}
                             </p>
                           </div>
                         </div>
