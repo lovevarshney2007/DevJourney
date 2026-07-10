@@ -36,7 +36,7 @@ export function Avatar({ name, src, size = "md", className }: AvatarProps) {
     <div
       className={cn(
         "rounded-full flex items-center justify-center font-semibold flex-shrink-0",
-        "bg-gradient-to-br from-accent to-purple-500 text-white",
+        "bg-gradient-to-br from-accent to-[#00D1FF] text-bg border border-accent/20 shadow-glow-sm",
         sizeMap[size],
         className
       )}
@@ -77,7 +77,7 @@ export function StatCard({
         </div>
         <div
           className={cn(
-            "p-2.5 rounded-xl bg-bg-hover border border-border group-hover:border-accent/30 transition-colors",
+            "p-3 rounded-2xl bg-bg border border-border/50 group-hover:border-accent/40 group-hover:shadow-glow-sm transition-all duration-300",
             accentColor
           )}
         >

@@ -8,8 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "Fira Code", "monospace"],
+        display: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       colors: {
         bg: {
@@ -33,36 +34,26 @@ module.exports = {
           primary: "#f1f5f9",
           secondary: "#94a3b8",
           muted: "#64748b",
-          disabled: "#334155",
+          disabled: "#475569",
         },
         success: {
           DEFAULT: "#22c55e",
-          subtle: "#14532d",
-          muted: "#166534",
+          hover: "#16a34a",
+          subtle: "rgba(34, 197, 94, 0.1)",
         },
         warning: {
           DEFAULT: "#f59e0b",
-          subtle: "#78350f",
+          subtle: "rgba(245, 158, 11, 0.1)",
         },
         danger: {
           DEFAULT: "#ef4444",
-          subtle: "#7f1d1d",
-          muted: "#991b1b",
+          subtle: "rgba(239, 68, 68, 0.1)",
         },
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-card":
-          "linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(139,92,246,0.05) 100%)",
-        "gradient-hero":
-          "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.15), transparent)",
-      },
       animation: {
-        "fade-in": "fadeIn 0.3s ease-out",
-        "slide-up": "slideUp 0.3s ease-out",
-        "slide-in-right": "slideInRight 0.3s ease-out",
-        shimmer: "shimmer 2s infinite",
-        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "fade-in": "fadeIn 0.5s ease-out forwards",
+        "slide-up": "slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "shimmer": "shimmer 2s infinite linear",
       },
       keyframes: {
         fadeIn: {
@@ -70,26 +61,29 @@ module.exports = {
           to: { opacity: "1" },
         },
         slideUp: {
-          from: { opacity: "0", transform: "translateY(10px)" },
+          from: { opacity: "0", transform: "translateY(20px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
-        slideInRight: {
-          from: { opacity: "0", transform: "translateX(10px)" },
-          to: { opacity: "1", transform: "translateX(0)" },
-        },
         shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
+          from: { backgroundPosition: "200% 0" },
+          to: { backgroundPosition: "-200% 0" },
         },
       },
       boxShadow: {
         card: "0 0 0 1px rgba(42,42,58,0.8), 0 4px 24px rgba(0,0,0,0.4)",
-        "card-hover":
-          "0 0 0 1px rgba(59,130,246,0.3), 0 8px 32px rgba(0,0,0,0.5)",
-        glow: "0 0 20px rgba(59,130,246,0.3)",
-        "glow-sm": "0 0 10px rgba(59,130,246,0.2)",
+        "card-hover": "0 0 0 1px rgba(59,130,246,0.5), 0 8px 32px rgba(0,0,0,0.6)",
+        subtle: "0 1px 2px 0 rgba(0, 0, 0, 0.5)",
+        glow: "0 0 20px rgba(59, 130, 246, 0.5)",
+        "glow-sm": "0 0 10px rgba(59, 130, 246, 0.3)",
+      },
+      backgroundImage: {
+        'hero-gradient': 'radial-gradient(ellipse at top, rgba(29, 78, 216, 0.15), transparent 80%)',
+        'text-gradient': 'linear-gradient(to right, #60a5fa, #93c5fd, #c084fc)',
       },
       borderRadius: {
+        sm: "0.25rem",
+        md: "0.375rem",
+        lg: "0.5rem",
         xl: "0.75rem",
         "2xl": "1rem",
         "3xl": "1.5rem",

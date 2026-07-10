@@ -12,8 +12,8 @@ export function DomainBadge({ domain, size = "md" }: DomainBadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border font-medium",
-        size === "sm" ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-xs",
+        "badge",
+        size === "sm" ? "px-1.5 py-0.5 text-[10px]" : "",
         DOMAIN_COLORS[domain]
       )}
     >
@@ -28,22 +28,22 @@ interface StatusBadgeProps {
 }
 
 const STATUS_MAP: Record<string, { label: string; cls: string }> = {
-  pending: { label: "Pending Review", cls: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20" },
-  approved: { label: "Approved", cls: "bg-green-500/10 text-green-400 border-green-500/20" },
-  rejected: { label: "Rejected", cls: "bg-red-500/10 text-red-400 border-red-500/20" },
-  changes_requested: { label: "Changes Requested", cls: "bg-orange-500/10 text-orange-400 border-orange-500/20" },
-  draft: { label: "Draft", cls: "bg-gray-500/10 text-gray-400 border-gray-500/20" },
-  published: { label: "Published", cls: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
-  archived: { label: "Archived", cls: "bg-gray-600/10 text-gray-500 border-gray-600/20" },
+  pending: { label: "Pending Review", cls: "badge-yellow" },
+  approved: { label: "Approved", cls: "badge-green" },
+  rejected: { label: "Rejected", cls: "badge-red" },
+  changes_requested: { label: "Changes Req", cls: "badge-orange" },
+  draft: { label: "Draft", cls: "badge-gray" },
+  published: { label: "Published", cls: "badge-blue" },
+  archived: { label: "Archived", cls: "badge-gray" },
 };
 
 export function StatusBadge({ status, isLate }: StatusBadgeProps) {
   const config = STATUS_MAP[status] || STATUS_MAP.pending;
   return (
-    <span className={cn("badge", config.cls)}>
+    <span className={cn(config.cls, isLate && "border-red-500")}>
       {config.label}
       {isLate && (
-        <span className="ml-1 text-[10px] text-orange-400 font-semibold">• LATE</span>
+        <span className="ml-1 text-danger font-bold uppercase">• LATE</span>
       )}
     </span>
   );
@@ -54,13 +54,13 @@ interface AnnouncementTypeBadgeProps {
 }
 
 const ANNOUNCEMENT_MAP: Record<string, { label: string; cls: string }> = {
-  task: { label: "New Task", cls: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
-  notice: { label: "Notice", cls: "bg-purple-500/10 text-purple-400 border-purple-500/20" },
-  deadline: { label: "Deadline", cls: "bg-red-500/10 text-red-400 border-red-500/20" },
-  update: { label: "Update", cls: "bg-green-500/10 text-green-400 border-green-500/20" },
+  task: { label: "New Task", cls: "badge-blue" },
+  notice: { label: "Notice", cls: "badge-yellow" },
+  deadline: { label: "Deadline", cls: "badge-red" },
+  update: { label: "Update", cls: "badge-green" },
 };
 
 export function AnnouncementTypeBadge({ type }: AnnouncementTypeBadgeProps) {
   const config = ANNOUNCEMENT_MAP[type] || ANNOUNCEMENT_MAP.notice;
-  return <span className={cn("badge", config.cls)}>{config.label}</span>;
+  return <span className={cn(config.cls)}>{config.label}</span>;
 }
