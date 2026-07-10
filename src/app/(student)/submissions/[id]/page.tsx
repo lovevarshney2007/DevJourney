@@ -60,9 +60,9 @@ export default function SubmissionDetailPage() {
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
               <h1 className="text-xl font-bold text-text-primary mb-2">
-                {typeof task === "object" ? task.title : "Task"}
+                {task && typeof task === "object" ? task.title : "Deleted Task"}
               </h1>
-              {typeof task === "object" && (
+              {task && typeof task === "object" && (
                 <div className="flex flex-wrap gap-1.5">
                   {task.domains?.map((d) => <DomainBadge key={d} domain={d} />)}
                 </div>

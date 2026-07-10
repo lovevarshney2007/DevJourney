@@ -21,6 +21,17 @@ export const registerSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters")
     .max(100),
+  otp: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.email && data.studentNumber) {
+    if (!validateEmailStudentNumberMatch(data.email, data.studentNumber)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Email must contain your student number (${data.studentNumber})`,
+        path: ["email"]
+      });
+    }
+  }
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

@@ -183,7 +183,7 @@ export default function StudentDashboardPage() {
                       className="block p-3 rounded-xl bg-bg-hover border border-border hover:border-accent/20 transition-colors"
                     >
                       <p className="text-xs font-medium text-text-primary truncate">
-                        {typeof task === "object" ? task.title : "Task"}
+                        {task && typeof task === "object" ? task.title : "Deleted Task"}
                       </p>
                       <div className="flex items-center gap-2 mt-1.5">
                         <StatusBadge status={sub.status} isLate={sub.isLate} />

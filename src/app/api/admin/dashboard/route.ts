@@ -4,6 +4,7 @@ import { getAuthUser, requireAdmin } from "@/lib/auth";
 import User from "@/models/User";
 import Task from "@/models/Task";
 import Submission from "@/models/Submission";
+import { redis } from "@/lib/redis";
 
 // GET /api/admin/dashboard
 export async function GET(req: NextRequest) {
@@ -11,6 +12,13 @@ export async function GET(req: NextRequest) {
     await connectDB();
     const authUser = await getAuthUser(req);
     requireAdmin(authUser);
+
+    const cacheKey = "admin:dashboard:data";
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return NextResponse.json(typeof cachedData === 'string' ? JSON.parse(cachedData) : cachedData);
+    }
 
     const [
       totalStudents,
@@ -37,7 +45,7 @@ export async function GET(req: NextRequest) {
         .lean(),
     ]);
 
-    return NextResponse.json({
+    const responseData = {
       success: true,
       data: {
         totalStudents,
@@ -47,7 +55,12 @@ export async function GET(req: NextRequest) {
         recentSubmissions,
         topStudents,
       },
-    });
+    };
+
+    // Cache for 60 seconds
+    await redis.setex(cacheKey, 60, JSON.stringify(responseData));
+
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error("[ADMIN DASHBOARD]", error);
     if (error instanceof Error && error.message.includes("Forbidden")) {

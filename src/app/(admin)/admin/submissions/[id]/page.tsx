@@ -84,13 +84,13 @@ export default function AdminSubmissionReviewPage() {
           {/* Task + Student Info */}
           <div className="card">
             <div className="flex items-start gap-4 mb-4">
-              <Avatar name={typeof student === "object" ? student.name : "?"} size="md" />
-              <div className="flex-1">
-                <p className="font-semibold text-text-primary">
-                  {typeof student === "object" ? student.name : "Student"}
+              <Avatar name={student && typeof student === "object" ? student.name : "?"} size="md" />
+              <div>
+                <p className="font-semibold text-text-primary text-lg">
+                  {student && typeof student === "object" ? student.name : "Unknown Student"}
                 </p>
-                <p className="text-sm text-text-muted">
-                  {typeof student === "object" ? `${student.email} · ${student.studentNumber}` : ""}
+                <p className="text-sm text-text-secondary">
+                  {student && typeof student === "object" ? `${student.email} · ${student.studentNumber}` : ""}
                 </p>
               </div>
               <StatusBadge status={submission.status} isLate={submission.isLate} />
@@ -99,9 +99,9 @@ export default function AdminSubmissionReviewPage() {
             <div className="p-3.5 rounded-xl bg-bg-hover border border-border">
               <p className="text-xs text-text-muted mb-1">Task</p>
               <p className="font-medium text-text-primary text-sm">
-                {typeof task === "object" ? task.title : "Task"}
+                {task && typeof task === "object" ? task.title : "Deleted Task"}
               </p>
-              {typeof task === "object" && (
+              {task && typeof task === "object" && (
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {task.domains?.map((d) => <DomainBadge key={d} domain={d} size="sm" />)}
                   <span className="text-xs text-accent font-semibold ml-auto">{task.points} max pts</span>
@@ -216,12 +216,12 @@ export default function AdminSubmissionReviewPage() {
               {/* Points */}
               <div>
                 <label className="label">
-                  Points Awarded * <span className="text-text-muted font-normal">(max: {typeof task === "object" ? task.points : 1000})</span>
+                  Points Awarded * <span className="text-text-muted font-normal">(max: {task && typeof task === "object" ? task.points : 1000})</span>
                 </label>
                 <input
                   type="number"
                   min={0}
-                  max={typeof task === "object" ? task.points : 1000}
+                  max={task && typeof task === "object" ? task.points : 1000}
                   className="input"
                   {...register("pointsAwarded", { valueAsNumber: true })}
                 />

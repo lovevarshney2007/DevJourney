@@ -58,9 +58,9 @@ export default function MySubmissionsPage() {
                           )}
                         </div>
                         <h3 className="font-medium text-text-primary group-hover:text-accent transition-colors mb-1">
-                          {typeof task === "object" ? task.title : "Task"}
+                          {task && typeof task === "object" ? task.title : "Deleted Task"}
                         </h3>
-                        {typeof task === "object" && (
+                        {task && typeof task === "object" && (
                           <div className="flex gap-1.5 mb-2">
                             {task.domains?.slice(0, 2).map((d) => (
                               <DomainBadge key={d} domain={d} size="sm" />

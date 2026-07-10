@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
-const API_PUBLIC = ["/api/auth/login", "/api/auth/register"];
+const API_PUBLIC = ["/api/auth/login", "/api/auth/register", "/api/auth/send-otp"];
 
 /**
  * Decode JWT payload without verification (safe for routing only).

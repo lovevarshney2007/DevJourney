@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db";
 import { signToken } from "@/lib/auth";
 import { registerSchema, validateEmailStudentNumberMatch } from "@/lib/validations";
 import User from "@/models/User";
+import { redis } from "@/lib/redis";
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,7 +19,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, studentNumber, password } = parsed.data;
+    const { name, email, studentNumber, password, otp } = parsed.data;
+
+    if (!otp) {
+      return NextResponse.json(
+        { success: false, error: "OTP is required for registration" },
+        { status: 400 }
+      );
+    }
+
+    // Verify OTP from Redis
+    const storedOtp = await redis.get(`otp:${email.toLowerCase()}`);
+    if (!storedOtp) {
+      return NextResponse.json(
+        { success: false, error: "OTP has expired or was not requested. Please request a new one." },
+        { status: 400 }
+      );
+    }
+    if (String(storedOtp) !== otp) {
+      return NextResponse.json(
+        { success: false, error: "Invalid OTP code" },
+        { status: 400 }
+      );
+    }
 
     // Cross-field validation: email must contain student number
     if (!validateEmailStudentNumberMatch(email, studentNumber)) {
@@ -56,6 +79,9 @@ export async function POST(req: NextRequest) {
       password,
       role: "student",
     });
+
+    // Delete OTP from Redis after successful registration
+    await redis.del(`otp:${email.toLowerCase()}`);
 
     const token = signToken({
       userId: user._id.toString(),

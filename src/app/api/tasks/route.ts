@@ -4,6 +4,7 @@ import { getAuthUser, requireAdmin } from "@/lib/auth";
 import { createTaskSchema } from "@/lib/validations";
 import Task from "@/models/Task";
 import "@/models/User";
+import { redis } from "@/lib/redis";
 
 // GET /api/tasks — list tasks
 export async function GET(req: NextRequest) {
@@ -33,6 +34,14 @@ export async function GET(req: NextRequest) {
       query.domains = domain;
     }
 
+    // Check Redis cache first
+    const cacheKey = `tasks:${authUser.role}:${domain || "all"}:${status || "all"}:${page}:${limit}`;
+    const cachedData = await redis.get(cacheKey);
+    
+    if (cachedData) {
+      return NextResponse.json(typeof cachedData === 'string' ? JSON.parse(cachedData) : cachedData);
+    }
+
     const [tasks, total] = await Promise.all([
       Task.find(query)
         .populate("createdBy", "name email")
@@ -43,14 +52,21 @@ export async function GET(req: NextRequest) {
       Task.countDocuments(query),
     ]);
 
-    return NextResponse.json({
+    const responseData = {
       success: true,
       data: tasks,
       total,
       page,
       limit,
       totalPages: Math.ceil(total / limit),
-    });
+    };
+
+    // Cache the response for 5 minutes (300 seconds)
+    await redis.setex(cacheKey, 300, JSON.stringify(responseData));
+
+    return NextResponse.json(responseData);
+
+
   } catch (error) {
     console.error("[GET TASKS]", error);
     return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
@@ -78,6 +94,13 @@ export async function POST(req: NextRequest) {
       createdBy: authUser!.userId,
       importedFrom: "manual",
     });
+
+    // Invalidate cache when a new task is created
+    // Upstash Redis doesn't easily support wildcards in standard commands without scanning,
+    // so for a small project, flushing the entire cache or using a version key is common.
+    // For now, we will simply clear the common student view cache.
+    await redis.del(`tasks:student:all:all:1:10`);
+    await redis.del(`tasks:admin:all:all:1:10`);
 
     return NextResponse.json({ success: true, data: task, message: "Task created" }, { status: 201 });
   } catch (error) {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getAuthUser, requireAdmin } from "@/lib/auth";
 import User from "@/models/User";
+import { redis } from "@/lib/redis";
 
 // GET /api/students — all students (admin)
 export async function GET(req: NextRequest) {
@@ -24,6 +25,13 @@ export async function GET(req: NextRequest) {
       ];
     }
 
+    const cacheKey = `admin:students:${search || "all"}:${page}:${limit}`;
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return NextResponse.json(typeof cachedData === 'string' ? JSON.parse(cachedData) : cachedData);
+    }
+
     const [students, total] = await Promise.all([
       User.find(query)
         .select("-password")
@@ -34,14 +42,19 @@ export async function GET(req: NextRequest) {
       User.countDocuments(query),
     ]);
 
-    return NextResponse.json({
+    const responseData = {
       success: true,
       data: students,
       total,
       page,
       limit,
       totalPages: Math.ceil(total / limit),
-    });
+    };
+
+    // Cache for 60 seconds
+    await redis.setex(cacheKey, 60, JSON.stringify(responseData));
+
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error("[GET STUDENTS]", error);
     if (error instanceof Error && error.message.includes("Forbidden")) {
