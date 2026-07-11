@@ -43,7 +43,7 @@ export async function middleware(req: NextRequest) {
   
   // API Rate Limiting
   if (pathname.startsWith("/api/")) {
-    const ip = req.headers.get("x-forwarded-for") || req.ip || "127.0.0.1";
+    const ip = req.headers.get("x-forwarded-for") || (req as any).ip || "127.0.0.1";
     let limiter = generalApiLimiter;
     let identifier = `api_${ip}`;
 
