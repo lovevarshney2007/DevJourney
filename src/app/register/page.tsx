@@ -95,7 +95,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center p-4 py-12">
-      <div className="absolute inset-0 hero-gradient pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-bg-wash-violet to-bg-wash-mint opacity-50 pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -105,7 +105,7 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-            <div className="relative h-10 w-10 rounded-xl overflow-hidden ring-2 ring-accent/30 bg-bg-hover">
+            <div className="relative h-10 w-10 rounded-xl overflow-hidden ring-2 ring-border-hairline bg-transparent">
               <Image src="/images/ccclogo.png" alt="CCC Logo" fill className="object-contain p-0.5" priority />
             </div>
             <span className="font-bold text-xl text-text-primary">DevJourney</span>
@@ -119,8 +119,8 @@ export default function RegisterPage() {
         </div>
 
         {step === 1 && (
-          <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-accent/5 border border-accent/20 mb-5">
-            <Info className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-bg-wash-violet border border-border-hairline mb-5">
+            <Info className="h-4 w-4 text-accent-violet flex-shrink-0 mt-0.5" />
             <p className="text-xs text-text-secondary leading-relaxed">
               Your email will be automatically generated from your first name and student number.
             </p>
@@ -160,7 +160,7 @@ export default function RegisterPage() {
                   placeholder={studentNumber ? `yourname${studentNumber}@akgec.ac.in` : "yourname25XXXXX@akgec.ac.in"}
                   error={errors.email?.message}
                   readOnly
-                  className="bg-accent/5 opacity-80"
+                  className="bg-bg-wash-violet opacity-80"
                   {...register("email")}
                 />
 
@@ -206,8 +206,8 @@ export default function RegisterPage() {
                 className="space-y-6"
               >
                 <div className="text-center py-4">
-                  <div className="h-16 w-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <MailCheck className="h-8 w-8 text-accent" />
+                  <div className="h-16 w-16 bg-bg-wash-violet rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MailCheck className="h-8 w-8 text-accent-violet" />
                   </div>
                   <p className="text-sm text-text-secondary mb-1">Enter the verification code sent to:</p>
                   <p className="text-sm font-medium text-text-primary">{getValues("email")}</p>
@@ -247,26 +247,26 @@ export default function RegisterPage() {
             )}
           </AnimatePresence>
 
-          <div className="mt-5 pt-5 border-t border-border text-center">
+          <div className="mt-5 pt-5 border-t border-border-hairline text-center">
             <p className="text-sm text-text-muted">
               Already have an account?{" "}
-              <Link href="/login" className="text-accent hover:text-accent-hover font-medium transition-colors">
+              <Link href="/login" className="text-accent-violet hover:text-accent-mint font-medium transition-colors">
                 Sign in
               </Link>
             </p>
             
-            <div className="mt-6 pt-5 border-t border-border/50 text-left">
+            <div className="mt-6 pt-5 border-t border-border-hairline/50 text-left">
               <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Facing Issues?</p>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-text-secondary">Love Varshney</span>
-                  <a href="tel:9720028781" className="text-accent hover:text-accent-hover font-medium flex items-center gap-1.5 transition-colors">
+                  <a href="tel:9720028781" className="text-accent-violet hover:text-accent-mint font-medium flex items-center gap-1.5 transition-colors">
                     <PhoneCall className="h-3.5 w-3.5" /> +91 97200 28781
                   </a>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-text-secondary">Sarthak Kaushik</span>
-                  <a href="tel:7060321453" className="text-accent hover:text-accent-hover font-medium flex items-center gap-1.5 transition-colors">
+                  <a href="tel:7060321453" className="text-accent-violet hover:text-accent-mint font-medium flex items-center gap-1.5 transition-colors">
                     <PhoneCall className="h-3.5 w-3.5" /> +91 70603 21453
                   </a>
                 </div>

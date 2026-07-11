@@ -24,7 +24,7 @@ export function Avatar({ name, src, size = "md", className }: AvatarProps) {
         src={src}
         alt={name}
         className={cn(
-          "rounded-full object-cover border border-border flex-shrink-0",
+          "rounded-full object-cover border border-border-strong flex-shrink-0",
           sizeMap[size],
           className
         )}
@@ -36,7 +36,7 @@ export function Avatar({ name, src, size = "md", className }: AvatarProps) {
     <div
       className={cn(
         "rounded-full flex items-center justify-center font-semibold flex-shrink-0",
-        "bg-gradient-to-br from-accent to-[#00D1FF] text-bg border border-accent/20 shadow-glow-sm",
+        "bg-accent-violet text-text-inverse border border-accent-violet/20",
         sizeMap[size],
         className
       )}
@@ -61,23 +61,23 @@ export function StatCard({
   value,
   icon,
   description,
-  accentColor = "text-accent",
+  accentColor = "text-accent-violet",
 }: StatCardProps) {
   return (
     <div className="stat-card group">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs text-text-muted font-medium uppercase tracking-wider">
+          <p className="text-xs text-text-muted font-mono font-medium uppercase tracking-widest">
             {title}
           </p>
-          <p className="text-3xl font-bold text-text-primary mt-1">{value}</p>
+          <p className="text-3xl font-bold font-sans tracking-tight text-text-primary mt-1">{value}</p>
           {description && (
             <p className="text-xs text-text-muted mt-1">{description}</p>
           )}
         </div>
         <div
           className={cn(
-            "p-3 rounded-2xl bg-bg border border-border/50 group-hover:border-accent/40 group-hover:shadow-glow-sm transition-all duration-300",
+            "p-3 rounded-md bg-transparent border border-border-hairline group-hover:border-accent-violet transition-colors duration-150",
             accentColor
           )}
         >
@@ -90,7 +90,7 @@ export function StatCard({
 
 // Page header
 interface PageHeaderProps {
-  title: string;
+  title: React.ReactNode;
   description?: string;
   subtitle?: string;
   actions?: React.ReactNode;
@@ -121,7 +121,7 @@ interface EmptyStateProps {
 export function EmptyState({ icon, title, description, action }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="p-4 rounded-2xl bg-bg-hover border border-border text-text-muted mb-4">
+      <div className="p-4 rounded-lg bg-bg-wash-violet border border-border-hairline text-text-muted mb-4">
         {icon}
       </div>
       <h3 className="text-lg font-semibold text-text-primary mb-1">{title}</h3>

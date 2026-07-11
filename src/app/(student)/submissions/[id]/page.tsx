@@ -106,20 +106,20 @@ export default function SubmissionDetailPage() {
             )}
           </div>
 
-          <div className="pt-4 border-t border-border">
+          <div className="pt-4 border-t border-border-hairline">
             <p className="text-xs text-text-muted uppercase tracking-wider mb-2">Description</p>
             <p className="text-sm text-text-secondary whitespace-pre-wrap">{submission.description}</p>
           </div>
 
           {submission.notes && (
-            <div className="pt-4 border-t border-border">
+            <div className="pt-4 border-t border-border-hairline">
               <p className="text-xs text-text-muted uppercase tracking-wider mb-2">Notes</p>
               <p className="text-sm text-text-secondary">{submission.notes}</p>
             </div>
           )}
 
           {submission.files?.length > 0 && (
-            <div className="pt-4 border-t border-border">
+            <div className="pt-4 border-t border-border-hairline">
               <p className="text-xs text-text-muted uppercase tracking-wider mb-2">Attached Files</p>
               <div className="space-y-1.5">
                 {submission.files.map((f, i) => (
@@ -136,12 +136,12 @@ export default function SubmissionDetailPage() {
 
         {/* Feedback */}
         {review && (
-          <div className="card border-border/80">
+          <div className="card border-border-hairline/80">
             <div className="flex items-center gap-2 mb-4">
               <ReviewIcon className={`h-5 w-5 ${reviewColor}`} />
               <h2 className="font-semibold text-text-primary">Admin Feedback</h2>
             </div>
-            <div className="p-4 rounded-xl bg-bg-hover border border-border">
+            <div className="p-4 rounded-xl bg-bg-wash-violet border border-border-hairline">
               <p className="text-sm text-text-secondary whitespace-pre-wrap">{review.feedback}</p>
             </div>
             <p className="text-xs text-text-muted mt-3">

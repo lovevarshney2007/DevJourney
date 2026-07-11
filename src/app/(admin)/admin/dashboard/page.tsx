@@ -26,16 +26,16 @@ export default function AdminDashboardPage() {
   });
 
   const stats = [
-    { title: "Total Students", value: data?.totalStudents || 0, icon: <Users className="h-5 w-5" />, accentColor: "text-blue-400" },
-    { title: "Total Tasks", value: data?.totalTasks || 0, icon: <ClipboardList className="h-5 w-5" />, accentColor: "text-purple-400", description: `${data?.publishedTasks || 0} published` },
-    { title: "Pending Reviews", value: data?.pendingReviews || 0, icon: <Inbox className="h-5 w-5" />, accentColor: "text-yellow-400" },
-    { title: "Active Tasks", value: data?.publishedTasks || 0, icon: <TrendingUp className="h-5 w-5" />, accentColor: "text-green-400" },
+    { title: "Total Students", value: data?.totalStudents || 0, icon: <Users className="h-5 w-5" />, accentColor: "text-accent-violet" },
+    { title: "Total Tasks", value: data?.totalTasks || 0, icon: <ClipboardList className="h-5 w-5" />, accentColor: "text-accent-mint", description: `${data?.publishedTasks || 0} published` },
+    { title: "Pending Reviews", value: data?.pendingReviews || 0, icon: <Inbox className="h-5 w-5" />, accentColor: "text-accent-violet" },
+    { title: "Active Tasks", value: data?.publishedTasks || 0, icon: <TrendingUp className="h-5 w-5" />, accentColor: "text-accent-mint" },
   ];
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <PageHeader
-        title="Admin Dashboard"
+        title={<>Admin <span className="font-serif italic font-normal text-accent-violet">Dashboard</span></>}
         description="Overview of CCC evaluation platform activity"
         actions={
           <Link href="/admin/submissions" className="btn-primary btn-sm">
@@ -77,17 +77,17 @@ export default function AdminDashboardPage() {
             ) : !data?.recentSubmissions?.length ? (
               <p className="text-text-muted text-sm py-8 text-center">No submissions yet</p>
             ) : (
-              <div className="divide-y divide-border">
+              <div className="divide-y divide-border-hairline">
                 {data.recentSubmissions.map((sub) => {
                   const task = sub.taskId as ITask;
                   const student = sub.studentId as IUser;
                   return (
                     <Link key={sub._id} href={`/admin/submissions/${sub._id}`}>
-                      <div className="flex items-center justify-between py-3.5 hover:bg-bg-hover px-1 rounded-lg transition-colors group">
+                      <div className="flex items-center justify-between py-3.5 hover:bg-bg-wash-violet px-1 rounded-lg transition-colors group">
                         <div className="flex items-center gap-3">
                           <Avatar name={student && typeof student === "object" ? student.name : "?"} size="sm" />
                           <div>
-                            <p className="text-sm font-medium text-text-primary group-hover:text-accent transition-colors">
+                            <p className="text-sm font-medium text-text-primary group-hover:text-accent-violet transition-colors">
                               {student && typeof student === "object" ? student.name : "Unknown Student"}
                             </p>
                             <p className="text-xs text-text-muted truncate max-w-[200px]">
@@ -130,16 +130,16 @@ export default function AdminDashboardPage() {
               <div className="space-y-3">
                 {data.topStudents.map((student, i) => (
                   <Link key={student._id} href={`/admin/students/${student._id}`}>
-                    <div className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-bg-hover transition-colors group">
+                    <div className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-bg-wash-violet transition-colors group">
                       <span className="text-sm font-bold text-text-muted w-5">#{i + 1}</span>
                       <Avatar name={student.name} src={student.avatar} size="sm" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-text-primary truncate group-hover:text-accent transition-colors">
+                        <p className="text-sm font-medium text-text-primary truncate group-hover:text-accent-violet transition-colors">
                           {student.name}
                         </p>
                         <p className="text-xs text-text-muted">{student.completedTasks} tasks</p>
                       </div>
-                      <span className="text-sm font-bold text-accent">{student.totalPoints}pts</span>
+                      <span className="text-sm font-bold text-accent-violet">{student.totalPoints}pts</span>
                     </div>
                   </Link>
                 ))}

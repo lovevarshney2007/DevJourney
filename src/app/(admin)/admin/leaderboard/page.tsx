@@ -110,7 +110,7 @@ export default function AdminLeaderboardPage() {
                     </td>
                     <td className="font-mono text-sm">{student.studentNumber}</td>
                     <td className="text-center">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-bg-hover">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-bg-wash-violet">
                         <Target className="h-3.5 w-3.5 text-accent" />
                         <span className="font-medium">{student.completedTasks || 0}</span>
                       </div>
@@ -138,7 +138,7 @@ export default function AdminLeaderboardPage() {
 
         {/* Pagination controls */}
         {totalPages > 1 && (
-          <div className="p-4 border-t border-border flex items-center justify-between">
+          <div className="p-4 border-t border-border-hairline flex items-center justify-between">
             <button 
               className="btn-secondary btn-sm"
               disabled={page === 1}

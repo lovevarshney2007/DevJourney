@@ -163,8 +163,8 @@ export default function EditTaskPage() {
                   className={cn(
                     "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
                     selectedDomains?.includes(domain)
-                      ? "bg-accent text-white border-accent shadow-glow-sm"
-                      : "bg-bg-hover text-text-muted border-border hover:border-accent/40"
+                      ? "bg-accent text-white border-accent"
+                      : "bg-bg-wash-violet text-text-muted border-border-hairline hover:border-accent/40"
                   )}
                 >
                   {domain}
@@ -216,7 +216,7 @@ export default function EditTaskPage() {
             </div>
           ) : (
             <label className={`flex flex-col items-center gap-3 p-8 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
-              docUploading ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40 bg-bg-hover"
+              docUploading ? "border-accent/40 bg-accent/5" : "border-border-hairline hover:border-accent/40 bg-bg-wash-violet"
             }`}>
               {docUploading ? (
                 <>
@@ -225,7 +225,7 @@ export default function EditTaskPage() {
                 </>
               ) : (
                 <>
-                  <div className="p-3 rounded-xl bg-bg-card border border-border">
+                  <div className="p-3 rounded-xl bg-bg-card border border-border-hairline">
                     <FileText className="h-6 w-6 text-text-muted" />
                   </div>
                   <div className="text-center">
@@ -247,7 +247,7 @@ export default function EditTaskPage() {
 
         <div className="card space-y-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-lg border-border">Helpful Links & Resources</h3>
+            <h3 className="font-semibold text-lg border-border-hairline">Helpful Links & Resources</h3>
             <Button type="button" variant="outline" size="sm" onClick={() => appendResource({ title: "", url: "" })} leftIcon={<Plus className="h-4 w-4" />}>
               Add Link
             </Button>
@@ -255,7 +255,7 @@ export default function EditTaskPage() {
           
           <div className="space-y-3">
             {resourceFields.map((field, i) => (
-              <div key={field.id} className="flex gap-3 items-start bg-bg-hover p-3 rounded-lg border border-border">
+              <div key={field.id} className="flex gap-3 items-start bg-bg-wash-violet p-3 rounded-lg border border-border-hairline">
                 <div className="flex-1 space-y-3">
                   <Input placeholder="Resource Title" {...register(`resources.${i}.title`)} />
                   <Input placeholder="URL (https://...)" {...register(`resources.${i}.url`)} />
@@ -266,7 +266,7 @@ export default function EditTaskPage() {
               </div>
             ))}
             {resourceFields.length === 0 && (
-              <p className="text-sm text-text-muted text-center py-4 bg-bg rounded-lg border border-dashed border-border">
+              <p className="text-sm text-text-muted text-center py-4 bg-bg rounded-lg border border-dashed border-border-hairline">
                 No resources added. Click "Add Link" to provide helpful articles or videos.
               </p>
             )}

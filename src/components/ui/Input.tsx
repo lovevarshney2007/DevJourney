@@ -3,8 +3,10 @@
 import { cn } from "@/lib/utils";
 import { Eye, EyeOff, AlertTriangle } from "lucide-react";
 import { InputHTMLAttributes, TextareaHTMLAttributes, forwardRef, useState, useEffect } from "react";
+import { motion, HTMLMotionProps } from "framer-motion";
+import { pressable } from "./motion";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends HTMLMotionProps<"input"> {
   label?: string;
   error?: string;
   hint?: string;
@@ -61,8 +63,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               {icon}
             </div>
           )}
-          <input
+          <motion.input
             ref={ref}
+            variants={pressable}
+            initial="rest"
+            whileTap="tap"
             id={inputId}
             type={inputType}
             maxLength={maxLength}
@@ -105,7 +110,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input";
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends HTMLMotionProps<"textarea"> {
   label?: string;
   error?: string;
   hint?: string;
@@ -140,8 +145,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             </span>
           )}
         </div>
-        <textarea
+        <motion.textarea
           ref={ref}
+          variants={pressable}
+          initial="rest"
+          whileTap="tap"
           id={inputId}
           maxLength={maxLength}
           value={value}
@@ -163,7 +171,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
 Textarea.displayName = "Textarea";
 
-interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps extends HTMLMotionProps<"select"> {
   label?: string;
   error?: string;
   success?: boolean;
@@ -180,8 +188,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             {label}
           </label>
         )}
-        <select
+        <motion.select
           ref={ref}
+          variants={pressable}
+          initial="rest"
+          whileTap="tap"
           id={inputId}
           className={cn(
             "input appearance-none cursor-pointer",
@@ -192,7 +203,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           {...props}
         >
           {children}
-        </select>
+        </motion.select>
         {error && <p className="text-xs text-danger mt-0.5">{error}</p>}
       </div>
     );

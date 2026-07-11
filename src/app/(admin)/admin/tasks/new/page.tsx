@@ -135,8 +135,8 @@ export default function NewTaskPage() {
                   className={cn(
                     "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
                     selectedDomains?.includes(domain)
-                      ? "bg-accent text-white border-accent shadow-glow-sm"
-                      : "bg-bg-hover text-text-muted border-border hover:border-accent/40"
+                      ? "bg-accent text-white border-accent"
+                      : "bg-bg-wash-violet text-text-muted border-border-hairline hover:border-accent/40"
                   )}
                 >
                   {domain}
@@ -200,7 +200,7 @@ export default function NewTaskPage() {
             </div>
           ) : (
             <label className={`flex flex-col items-center gap-3 p-8 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
-              docUploading ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40 bg-bg-hover"
+              docUploading ? "border-accent/40 bg-accent/5" : "border-border-hairline hover:border-accent/40 bg-bg-wash-violet"
             }`}>
               {docUploading ? (
                 <>
@@ -209,7 +209,7 @@ export default function NewTaskPage() {
                 </>
               ) : (
                 <>
-                  <div className="p-3 rounded-xl bg-bg-card border border-border">
+                  <div className="p-3 rounded-xl bg-bg-card border border-border-hairline">
                     <FileText className="h-6 w-6 text-text-muted" />
                   </div>
                   <div className="text-center">

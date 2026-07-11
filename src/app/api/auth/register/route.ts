@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { signToken } from "@/lib/auth";
-import { registerSchema, RegisterInput, validateEmailStudentNumberMatch } from "@/lib/validations";
+import { registerSchema, RegisterInput } from "@/lib/validations";
 import { sanitizeInput } from "@/lib/sanitize";
 import { logger } from "@/lib/logger";
 import User from "@/models/User";
@@ -25,6 +25,13 @@ export async function POST(req: NextRequest) {
 
     const { name, email, studentNumber, password, otp } = parsed.data;
 
+    if (!email) {
+      return NextResponse.json(
+        { success: false, error: "Email is required for registration" },
+        { status: 400 }
+      );
+    }
+
     if (!otp) {
       return NextResponse.json(
         { success: false, error: "OTP is required for registration" },
@@ -43,17 +50,6 @@ export async function POST(req: NextRequest) {
     if (String(storedOtp) !== otp) {
       return NextResponse.json(
         { success: false, error: "Invalid OTP code" },
-        { status: 400 }
-      );
-    }
-
-    // Cross-field validation: email must contain student number
-    if (!validateEmailStudentNumberMatch(email, studentNumber)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: `Email must contain your student number (${studentNumber}). Expected format: yourname${studentNumber}@akgec.ac.in`,
-        },
         { status: 400 }
       );
     }

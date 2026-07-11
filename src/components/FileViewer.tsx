@@ -51,7 +51,7 @@ export function FileViewer({ url }: FileViewerProps) {
 
   if (error) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-bg-hover text-text-muted p-6 text-center">
+      <div className="w-full h-full flex items-center justify-center bg-bg-wash-violet text-text-muted p-6 text-center">
         <p>{error}</p>
         <a href={url} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-sm mt-4 inline-block mx-auto">
           Download to view
@@ -107,7 +107,7 @@ export function FileViewer({ url }: FileViewerProps) {
       )}
 
       {!isPdf && !isDocx && (
-        <div className="w-full h-full flex flex-col items-center justify-center bg-bg-hover text-text-muted p-6">
+        <div className="w-full h-full flex flex-col items-center justify-center bg-bg-wash-violet text-text-muted p-6">
           <p>Preview not available for this file type.</p>
           <a href={url} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-sm mt-4">
             Download File

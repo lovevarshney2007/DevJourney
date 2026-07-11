@@ -120,7 +120,7 @@ export default function ImportTasksPage() {
             <div className={`flex items-center justify-center h-7 w-7 rounded-full text-xs font-bold border transition-colors ${
               step === s ? "bg-accent border-accent text-white" :
               (["upload", "preview", "success"].indexOf(step) > i) ? "bg-success/20 border-success text-success" :
-              "bg-bg-hover border-border text-text-muted"
+              "bg-bg-wash-violet border-border-hairline text-text-muted"
             }`}>
               {["upload", "preview", "success"].indexOf(step) > i ? <CheckCircle className="h-4 w-4" /> : i + 1}
             </div>
@@ -154,7 +154,7 @@ export default function ImportTasksPage() {
               onDragLeave={() => setDragging(false)}
               onDrop={handleDrop}
               className={`flex flex-col items-center gap-4 p-12 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${
-                dragging ? "border-accent bg-accent/5" : "border-border hover:border-accent/40 bg-bg-hover"
+                dragging ? "border-accent bg-accent/5" : "border-border-hairline hover:border-accent/40 bg-bg-wash-violet"
               }`}
             >
               {parsing ? (
@@ -189,7 +189,7 @@ export default function ImportTasksPage() {
             </div>
 
             {/* Doc/PDF Format guide */}
-            <div className="mt-4 p-4 rounded-xl bg-bg-hover border border-border">
+            <div className="mt-4 p-4 rounded-xl bg-bg-wash-violet border border-border-hairline">
               <p className="text-xs font-semibold text-text-secondary mb-2">Word/PDF Format (use task blocks):</p>
               <pre className="text-xs text-text-muted font-mono leading-relaxed overflow-x-auto">
 {`TASK START

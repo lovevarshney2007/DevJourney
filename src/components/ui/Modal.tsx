@@ -19,6 +19,8 @@ const sizeClasses = {
   xl: "max-w-4xl",
 };
 
+import { EASE_FAST } from "./motion";
+
 export function Modal({
   isOpen,
   onClose,
@@ -84,7 +86,8 @@ export function Modal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            transition={{ duration: 0.15, ease: EASE_FAST }}
+            className="absolute inset-0 bg-black/60"
             onClick={onClose}
           />
 
@@ -94,15 +97,15 @@ export function Modal({
             role="dialog"
             aria-modal="true"
             aria-labelledby={title ? "modal-title" : undefined}
-            initial={{ opacity: 0, scale: 0.97, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 10 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`relative w-full ${sizeClasses[size]} card bg-bg-surface border-border max-h-[90vh] overflow-y-auto z-10 shadow-lg`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.2, ease: EASE_FAST }}
+            className={`relative w-full ${sizeClasses[size]} card bg-bg-surface border-border-hairline max-h-[90vh] overflow-y-auto z-10 shadow-none`}
           >
             {/* Header */}
             {title && (
-              <div className="flex items-center justify-between mb-5 pb-4 border-b border-border">
+              <div className="flex items-center justify-between mb-5 pb-4 border-b border-border-hairline">
                 <h2 id="modal-title" className="text-lg font-semibold text-text-primary">
                   {title}
                 </h2>

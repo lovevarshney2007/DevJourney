@@ -78,7 +78,7 @@ export default function AdminStudentDetailPage() {
             </div>
             
             {(student.github || student.linkedin) && (
-              <div className="flex items-center gap-4 mt-4 pt-4 border-t border-border/50">
+              <div className="flex items-center gap-4 mt-4 pt-4 border-t border-border-hairline/50">
                 {student.github && (
                   <a href={student.github} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline flex items-center gap-1">
                     <ExternalLink className="h-3 w-3" /> GitHub
@@ -93,7 +93,7 @@ export default function AdminStudentDetailPage() {
             )}
           </div>
 
-          <div className="flex flex-row md:flex-col gap-4 bg-bg-hover p-4 rounded-xl border border-border">
+          <div className="flex flex-row md:flex-col gap-4 bg-bg-wash-violet p-4 rounded-xl border border-border-hairline">
             <div>
               <p className="text-xs text-text-muted uppercase tracking-wider mb-1 flex items-center gap-1.5">
                 <Trophy className="h-3.5 w-3.5" /> Total Points

@@ -2,9 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import { forwardRef } from "react";
+import { motion, HTMLMotionProps } from "framer-motion";
+import { pressable } from "./motion";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HTMLMotionProps<"button"> {
   variant?: "primary" | "secondary" | "ghost" | "danger" | "success" | "outline";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
@@ -18,7 +20,7 @@ const variantClasses = {
   ghost: "btn-ghost",
   danger: "btn-danger",
   success: "btn-success",
-  outline: "btn-outline border border-border hover:bg-bg-hover bg-transparent text-text-primary",
+  outline: "btn-outline border border-border-hairline hover:bg-bg-wash-violet bg-transparent text-text-primary",
 };
 
 const sizeClasses = {
@@ -43,8 +45,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     return (
-      <button
+      <motion.button
         ref={ref}
+        variants={pressable}
+        initial="rest"
+        whileTap={disabled || loading ? undefined : "tap"}
         className={cn(
           "btn",
           variantClasses[variant],
@@ -61,7 +66,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {children}
         {!loading && rightIcon}
-      </button>
+      </motion.button>
     );
   }
 );

@@ -15,6 +15,9 @@ import {
   CalendarDays,
   Smartphone
 } from "lucide-react";
+import { HeroCenteredStack } from "@/components/marketing/HeroCenteredStack";
+import { HeroOverlapCollage } from "@/components/marketing/HeroOverlapCollage";
+import { HeroGutterSplit } from "@/components/marketing/HeroGutterSplit";
 
 const domains = [
   {
@@ -56,18 +59,18 @@ const faqs = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-bg text-text-primary overflow-x-hidden font-sans selection:bg-accent/20 selection:text-accent">
+    <div className="min-h-screen bg-bg-canvas text-text-primary overflow-x-hidden font-sans selection:bg-accent-violet/20 selection:text-accent-violet">
       
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border transition-all">
+      {/* Glassmorphic Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-bg-surface/70 backdrop-blur-md border-b border-white/20 shadow-sm transition-all">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative h-8 w-8 flex-shrink-0 bg-bg-hover rounded-md ring-1 ring-accent/30 overflow-hidden">
+            <div className="relative h-8 w-8 flex-shrink-0 rounded-[4px] border border-border-hairline bg-transparent overflow-hidden">
               <Image 
                 src="/images/ccclogo.png" 
                 alt="CCC Logo" 
                 fill 
-                className="object-contain p-1"
+                className="object-contain p-0.5 invert opacity-80"
               />
             </div>
             <div>
@@ -91,95 +94,17 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32 px-6 bg-hero-gradient">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col items-start"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bg-surface border border-border text-xs font-medium text-text-secondary mb-8">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-50"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-              </span>
-              Cloud Computing Cell, AKGEC
-            </div>
-
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight text-text-primary">
-              Learn. Build.<br/>
-              <span className="text-text-secondary">Innovate.</span>
-            </h1>
-
-            <p className="text-lg text-text-secondary max-w-lg mb-10 leading-relaxed">
-              The official task evaluation and recruitment portal for the Cloud Computing Cell. Submit your domain tasks, track deadlines, and receive expert code reviews.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-              <Link href="/register" className="btn-primary btn-lg w-full sm:w-auto">
-                Join the Platform
-              </Link>
-              <Link href="#domains" className="btn-secondary btn-lg w-full sm:w-auto">
-                View Domains
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Right Side: Clean CCC Event Card */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="bg-bg-surface border border-border shadow-md rounded-xl overflow-hidden relative z-10 flex flex-col p-8">
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-border">
-                <div className="relative h-16 w-16 bg-bg border border-border rounded-xl">
-                  <Image src="/images/ccclogo.png" alt="CCC" fill className="object-contain p-2" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-text-primary">Annual Recruitment Drive</h3>
-                  <p className="text-sm text-text-secondary">Cloud Computing Cell</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-sm text-text-primary">
-                  <ClipboardList className="h-5 w-5 text-accent" />
-                  <span>5 specialized technical domains</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-text-primary">
-                  <CalendarDays className="h-5 w-5 text-accent" />
-                  <span>Strict task deadlines & evaluation</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-text-primary">
-                  <Trophy className="h-5 w-5 text-accent" />
-                  <span>Live leaderboards and scoring</span>
-                </div>
-              </div>
-              
-              <div className="mt-8 p-4 bg-bg rounded-lg border border-border flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-text-muted font-medium mb-1">Portal Status</p>
-                  <p className="text-sm font-semibold text-green-400 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                    Accepting Submissions
-                  </p>
-                </div>
-                <Link href="/register" className="btn-ghost btn-sm">
-                  Register <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-          
-        </div>
-      </section>
+      <HeroCenteredStack />
 
       {/* Tech Domains Section */}
-      <section id="domains" className="py-24 px-6 border-t border-border bg-bg-surface">
+      <motion.section 
+        id="domains" 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="py-24 px-6 border-t border-border-hairline bg-bg-surface"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="max-w-2xl mb-16">
             <h2 className="text-3xl font-bold text-text-primary mb-4 tracking-tight">
@@ -194,9 +119,9 @@ export default function LandingPage() {
             {domains.map((domain) => (
               <div
                 key={domain.title}
-                className="bg-bg border border-border p-6 rounded-xl hover:border-border-focus/30 transition-colors"
+                className="bg-transparent border border-border-hairline p-6 rounded-xl hover:border-accent-violet/30 transition-colors"
               >
-                <div className="w-10 h-10 rounded-lg bg-bg-surface border border-border flex items-center justify-center text-text-primary mb-6">
+                <div className="w-10 h-10 rounded-lg bg-bg-wash-violet border border-border-hairline flex items-center justify-center text-text-primary mb-6">
                   {domain.icon}
                 </div>
                 <h3 className="font-semibold text-base text-text-primary mb-2">{domain.title}</h3>
@@ -205,10 +130,48 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+      </motion.section>
+
+      {/* Cinematic Video Intermission */}
+      <section className="relative h-[60vh] sm:h-[70vh] w-full overflow-hidden flex items-center justify-center">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0 opacity-100"
+        >
+          <source src="/metal-human/metal-human.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 z-0 bg-black/40"></div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 text-center px-6 max-w-3xl"
+        >
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
+            Precision engineering.
+          </h2>
+          <p className="text-lg text-white/80 max-w-xl mx-auto font-medium">
+            Join a collective of developers building robust, scalable solutions for the modern web.
+          </p>
+        </motion.div>
       </section>
 
       {/* Workflow Section */}
-      <section id="workflow" className="py-24 px-6 border-t border-border">
+      <motion.section 
+        id="workflow" 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="py-24 px-6 border-t border-border-hairline"
+      >
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-3xl font-bold text-text-primary mb-6 tracking-tight">
@@ -235,31 +198,38 @@ export default function LandingPage() {
             </div>
           </div>
           
-          <div className="relative p-6 bg-bg-surface border border-border rounded-xl">
+          <div className="relative p-6 bg-bg-surface border border-border-hairline rounded-xl">
              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-               <CheckCircle2 className="h-5 w-5 text-accent" />
+               <CheckCircle2 className="h-5 w-5 text-accent-violet" />
                Submission Pipeline
              </h3>
              <div className="space-y-3">
-               <div className="flex justify-between items-center p-3 bg-bg border border-border rounded-lg opacity-50">
+               <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline rounded-lg opacity-50">
                  <span className="text-sm">Task 1: Basic UI Layout</span>
-                 <span className="text-xs font-semibold text-green-400 border border-green-400/20 bg-green-400/10 px-2 py-1 rounded">Approved</span>
+                 <span className="badge-mint">Approved</span>
                </div>
-               <div className="flex justify-between items-center p-3 bg-bg border border-border rounded-lg">
+               <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline rounded-lg">
                  <span className="text-sm">Task 2: API Integration</span>
-                 <span className="text-xs font-semibold text-yellow-400 border border-yellow-400/20 bg-yellow-400/10 px-2 py-1 rounded">Pending Review</span>
+                 <span className="badge-violet">Pending Review</span>
                </div>
-               <div className="flex justify-between items-center p-3 bg-bg border border-border border-dashed rounded-lg opacity-30">
+               <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline border-dashed rounded-lg opacity-30">
                  <span className="text-sm">Task 3: Final Project</span>
-                 <span className="text-xs font-semibold text-text-muted">Not Submitted</span>
+                 <span className="badge-gray">Not Submitted</span>
                </div>
              </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-24 px-6 bg-bg-surface border-t border-border">
+      <motion.section 
+        id="faq" 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="py-24 px-6 bg-bg-surface border-t border-border-hairline"
+      >
         <div className="max-w-3xl mx-auto">
           <div className="mb-16 text-center">
             <h2 className="text-3xl font-bold text-text-primary tracking-tight">
@@ -269,7 +239,7 @@ export default function LandingPage() {
           
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-bg border border-border p-6 rounded-xl">
+              <div key={index} className="bg-transparent border border-border-hairline p-6 rounded-xl">
                 <h3 className="font-semibold text-text-primary mb-2 flex items-center justify-between">
                   {faq.question}
                 </h3>
@@ -280,14 +250,14 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-bg py-12 px-6">
+      <footer className="border-t border-border-hairline bg-transparent py-12 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="relative h-6 w-6 flex-shrink-0 bg-bg-hover rounded ring-1 ring-accent/30 overflow-hidden">
+              <div className="relative h-6 w-6 flex-shrink-0 bg-transparent rounded ring-1 ring-border-hairline overflow-hidden">
                 <Image src="/images/ccclogo.png" alt="CCC Logo" fill className="object-contain p-0.5" />
               </div>
               <span className="font-semibold text-sm text-text-primary">CCC DevJourney</span>
@@ -312,7 +282,7 @@ export default function LandingPage() {
           </div>
         </div>
         
-        <div className="max-w-7xl mx-auto pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto pt-8 border-t border-border-hairline flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-text-muted">
             © {new Date().getFullYear()} Cloud Computing Cell, AKGEC. All rights reserved.
           </p>

@@ -85,7 +85,7 @@ export default function AdminTaskDetailPage() {
             <h1 className="text-3xl font-bold text-text-primary mb-4">{data.title}</h1>
             
             {/* Action Bar */}
-            <div className="flex flex-wrap items-center gap-3 p-4 bg-bg-hover rounded-xl border border-border mb-6">
+            <div className="flex flex-wrap items-center gap-3 p-4 bg-bg-wash-violet rounded-xl border border-border-hairline mb-6">
               {isDraft && (
                 <Button 
                   onClick={() => updateStatusMutation.mutate("published")}
@@ -125,7 +125,7 @@ export default function AdminTaskDetailPage() {
 
             {/* Document PDF */}
             {data.pdfUrl && (
-              <div className="mt-8 pt-6 border-t border-border">
+              <div className="mt-8 pt-6 border-t border-border-hairline">
                 <h3 className="text-lg font-semibold text-text-primary mb-3">Assignment Document</h3>
                 <a 
                   href={data.pdfUrl} 
@@ -161,7 +161,7 @@ export default function AdminTaskDetailPage() {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-border">
+          <div className="pt-4 border-t border-border-hairline">
             <button 
               onClick={() => {
                 if (window.confirm("Are you sure you want to delete this task? This action cannot be undone.")) {

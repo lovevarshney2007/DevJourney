@@ -52,7 +52,7 @@ export default function MySubmissionsPage() {
                         <div className="flex items-center gap-2 mb-2">
                           <StatusBadge status={sub.status} isLate={sub.isLate} />
                           {sub.version > 1 && (
-                            <span className="text-[10px] text-text-muted border border-border rounded px-1.5 py-0.5">
+                            <span className="text-[10px] text-text-muted border border-border-hairline rounded px-1.5 py-0.5">
                               v{sub.version}
                             </span>
                           )}

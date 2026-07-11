@@ -96,7 +96,7 @@ export default function AdminSubmissionReviewPage() {
               <StatusBadge status={submission.status} isLate={submission.isLate} />
             </div>
 
-            <div className="p-3.5 rounded-xl bg-bg-hover border border-border">
+            <div className="p-3.5 rounded-xl bg-bg-wash-violet border border-border-hairline">
               <p className="text-xs text-text-muted mb-1">Task</p>
               <p className="font-medium text-text-primary text-sm">
                 {task && typeof task === "object" ? task.title : "Deleted Task"}
@@ -140,20 +140,20 @@ export default function AdminSubmissionReviewPage() {
               </a>
             )}
 
-            <div className="pt-3 border-t border-border">
+            <div className="pt-3 border-t border-border-hairline">
               <p className="text-xs text-text-muted uppercase tracking-wider mb-2">Description</p>
               <p className="text-sm text-text-secondary whitespace-pre-wrap leading-relaxed">{submission.description}</p>
             </div>
 
             {submission.notes && (
-              <div className="pt-3 border-t border-border">
+              <div className="pt-3 border-t border-border-hairline">
                 <p className="text-xs text-text-muted uppercase tracking-wider mb-2">Notes</p>
                 <p className="text-sm text-text-secondary">{submission.notes}</p>
               </div>
             )}
 
             {submission.files?.length > 0 && (
-              <div className="pt-3 border-t border-border">
+              <div className="pt-3 border-t border-border-hairline">
                 <p className="text-xs text-text-muted uppercase tracking-wider mb-2">Files</p>
                 <div className="space-y-1">
                   {submission.files.map((f, i) => (
@@ -166,7 +166,7 @@ export default function AdminSubmissionReviewPage() {
                 </div>
               </div>
             )}
-            <p className="text-xs text-text-muted pt-2 border-t border-border">
+            <p className="text-xs text-text-muted pt-2 border-t border-border-hairline">
               {submission.resubmittedAt
                 ? `Resubmitted ${formatDateTime(submission.resubmittedAt)} · v${submission.version}`
                 : `Submitted ${formatDateTime(submission.submittedAt)}`}
@@ -182,7 +182,7 @@ export default function AdminSubmissionReviewPage() {
             </h3>
 
             {review && (
-              <div className="mb-4 p-3 rounded-xl bg-bg-hover border border-border">
+              <div className="mb-4 p-3 rounded-xl bg-bg-wash-violet border border-border-hairline">
                 <p className="text-xs text-text-muted mb-1">Previous review</p>
                 <StatusBadge status={review.status} />
                 <p className="text-xs text-text-muted mt-1">{review.pointsAwarded} points awarded</p>
@@ -202,7 +202,7 @@ export default function AdminSubmissionReviewPage() {
                     { value: "rejected", label: "Reject", icon: <XCircle className="h-4 w-4" />, cls: "bg-danger/10 border-danger/30 text-danger hover:bg-danger/20" },
                   ].map((opt) => (
                     <label key={opt.value} className={`flex items-center gap-2.5 p-3 rounded-xl border cursor-pointer transition-all ${
-                      reviewStatus === opt.value ? opt.cls : "border-border bg-bg-hover text-text-muted hover:border-border"
+                      reviewStatus === opt.value ? opt.cls : "border-border-hairline bg-bg-wash-violet text-text-muted hover:border-border-hairline"
                     }`}>
                       <input type="radio" value={opt.value} className="sr-only" {...register("status")} />
                       {opt.icon}

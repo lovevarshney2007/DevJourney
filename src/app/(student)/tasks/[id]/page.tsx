@@ -150,7 +150,7 @@ export default function TaskDetailPage() {
 
             {/* Resources */}
             {task.resources?.length > 0 && (
-              <div className="mt-5 pt-5 border-t border-border">
+              <div className="mt-5 pt-5 border-t border-border-hairline">
                 <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Resources</p>
                 <div className="space-y-2">
                   {task.resources.map((r, i) => (
@@ -172,12 +172,12 @@ export default function TaskDetailPage() {
 
             {/* Document Viewer & Download */}
             {task.pdfUrl && (
-              <div className="mt-8 pt-6 border-t border-border space-y-4">
+              <div className="mt-8 pt-6 border-t border-border-hairline space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-text-primary">Assignment Document</h3>
                 </div>
                 
-                <div className="w-full rounded-xl overflow-hidden border border-border shadow-sm">
+                <div className="w-full rounded-xl overflow-hidden border border-border-hairline shadow-sm">
                   <FileViewer url={task.pdfUrl} />
                 </div>
               </div>
@@ -186,7 +186,7 @@ export default function TaskDetailPage() {
 
           {/* Current Submission Status */}
           {mySubmission && (
-            <div className="card border-border/80">
+            <div className="card border-border-hairline/80">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold text-text-primary">Your Submission</h3>
                 <StatusBadge status={mySubmission.status} isLate={mySubmission.isLate} />
@@ -207,7 +207,7 @@ export default function TaskDetailPage() {
                   </div>
                 )}
                 {mySubmission.files && mySubmission.files.length > 0 && (
-                  <div className="pt-2 border-t border-border">
+                  <div className="pt-2 border-t border-border-hairline">
                     <p className="text-xs text-text-muted mb-1.5 uppercase tracking-wider font-medium">Attached Files</p>
                     <div className="space-y-1">
                       {mySubmission.files.map((fileUrl, i) => (
@@ -312,7 +312,7 @@ export default function TaskDetailPage() {
                   <div>
                     <label className="label">Attach Files <span className="text-text-muted font-normal">(screenshots, docs, reports)</span></label>
                     <label className={`flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
-                      uploadingFiles ? "border-accent/40 bg-accent/5" : "bg-bg-hover border-border hover:border-accent/40"
+                      uploadingFiles ? "border-accent/40 bg-accent/5" : "bg-bg-wash-violet border-border-hairline hover:border-accent/40"
                     }`}>
                       {uploadingFiles ? (
                         <>

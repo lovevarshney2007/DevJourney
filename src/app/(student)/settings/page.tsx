@@ -76,7 +76,7 @@ export default function SettingsPage() {
       <div className="card">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           
-          <div className="flex items-center gap-6 pb-6 border-b border-border">
+          <div className="flex items-center gap-6 pb-6 border-b border-border-hairline">
             <div className="relative group">
               <Avatar name={user?.name || "?"} src={avatarUrl} size="lg" className="h-24 w-24 text-2xl" />
               <div className="absolute inset-0 bg-black/60 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">

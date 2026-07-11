@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 const inter = Inter({
   subsets: ["latin"],
+  weight: ["400", "500", "700", "800"],
   variable: "--font-inter",
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  weight: "400",
+  style: "italic",
+  variable: "--font-instrument-serif",
   display: "swap",
 });
 
@@ -43,8 +46,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="bg-bg text-text-primary antialiased font-sans">
+    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="bg-bg-canvas text-text-primary antialiased font-sans">
+        <div className="fixed top-0 left-0 w-full h-[5px] bg-[var(--top-strip)] z-[9999]" />
         <Providers>{children}</Providers>
       </body>
     </html>

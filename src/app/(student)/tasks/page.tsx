@@ -103,7 +103,7 @@ export default function TasksPage() {
                     </p>
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
+                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-border-hairline">
                       <div className="flex items-center gap-1.5">
                         <Calendar className="h-3.5 w-3.5 text-text-muted" />
                         <span

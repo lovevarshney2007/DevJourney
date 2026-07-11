@@ -66,7 +66,7 @@ export default function AdminSettingsPage() {
       />
 
       <div className="card space-y-6">
-        <div className="flex items-start gap-4 pb-6 border-b border-border">
+        <div className="flex items-start gap-4 pb-6 border-b border-border-hairline">
           <div className="p-3 bg-accent/10 rounded-xl">
             <FileSpreadsheet className="h-6 w-6 text-accent" />
           </div>
@@ -87,7 +87,7 @@ export default function AdminSettingsPage() {
         </div>
 
         <div className="flex items-start gap-4">
-          <div className="p-3 bg-bg-hover border border-border rounded-xl">
+          <div className="p-3 bg-bg-wash-violet border border-border-hairline rounded-xl">
             <SettingsIcon className="h-6 w-6 text-text-muted" />
           </div>
           <div className="flex-1">

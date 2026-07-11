@@ -50,9 +50,9 @@ export default function StudentDashboardPage() {
   const upcomingDeadlines = tasks?.filter((t) => isDeadlineSoon(t.deadline)) || [];
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 md:p-10 w-full max-w-[1500px] mx-auto min-h-screen">
       <PageHeader
-        title="Student Dashboard"
+        title={<>Student <span className="font-serif italic font-normal text-accent-violet">Dashboard</span></>}
         description="Welcome to the CCC task evaluation portal."
       />
 
@@ -62,30 +62,30 @@ export default function StudentDashboardPage() {
           {
             title: "Active Tasks",
             value: tasksLoading ? "—" : activeTasks.length,
-            icon: <ClipboardList className="h-5 w-5" />,
+            icon: <ClipboardList className="h-6 w-6" />,
             description: "Available to submit",
-            accentColor: "text-blue-400",
+            accentColor: "text-accent-violet",
           },
           {
             title: "Pending Reviews",
             value: subsLoading ? "—" : pendingReviews,
-            icon: <Clock className="h-5 w-5" />,
+            icon: <Clock className="h-6 w-6" />,
             description: "Awaiting admin review",
-            accentColor: "text-yellow-400",
+            accentColor: "text-accent-mint",
           },
           {
             title: "My Submissions",
             value: subsLoading ? "—" : submissions?.length || 0,
-            icon: <Send className="h-5 w-5" />,
+            icon: <Send className="h-6 w-6" />,
             description: "Total submissions",
-            accentColor: "text-green-400",
+            accentColor: "text-accent-violet",
           },
           {
             title: "Deadlines Soon",
             value: upcomingDeadlines.length,
-            icon: <CalendarDays className="h-5 w-5" />,
+            icon: <CalendarDays className="h-6 w-6" />,
             description: "Within 3 days",
-            accentColor: "text-orange-400",
+            accentColor: "text-accent-mint",
           },
         ].map((stat, i) => (
           <motion.div
@@ -99,11 +99,12 @@ export default function StudentDashboardPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Active Tasks */}
         <div className="lg:col-span-2">
           <SectionCard
             title="Active Tasks"
+            className="p-6 md:p-8"
             actions={
               <Link href="/tasks" className="btn-ghost btn-sm">
                 View all <ArrowRight className="h-3.5 w-3.5" />
@@ -123,15 +124,15 @@ export default function StudentDashboardPage() {
                 description="Check back later for new tasks from the Cloud Computing Cell."
               />
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {activeTasks.slice(0, 5).map((task) => (
                   <Link
                     key={task._id}
                     href={`/tasks/${task._id}`}
-                    className="flex items-center justify-between p-3.5 rounded-xl bg-bg-hover border border-border hover:border-accent/30 transition-colors group"
+                    className="flex items-center justify-between p-5 rounded-xl bg-bg-surface border border-border-hairline hover:border-accent-violet/30 hover:bg-bg-wash-violet transition-all duration-200 group hover:shadow-sm"
                   >
                     <div className="flex-1 min-w-0 mr-4">
-                      <p className="text-sm font-medium text-text-primary truncate group-hover:text-accent transition-colors">
+                      <p className="text-base font-semibold text-text-primary truncate group-hover:text-accent-violet transition-colors">
                         {task.title}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
@@ -149,7 +150,7 @@ export default function StudentDashboardPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <ArrowRight className="h-4 w-4 text-text-muted group-hover:text-accent transition-colors" />
+                      <ArrowRight className="h-5 w-5 text-text-muted group-hover:text-accent-violet transition-colors" />
                     </div>
                   </Link>
                 ))}
@@ -159,10 +160,11 @@ export default function StudentDashboardPage() {
         </div>
 
         {/* Right column */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Recent Submissions */}
           <SectionCard
             title="Recent Submissions"
+            className="p-6 md:p-8"
             actions={
               <Link href="/submissions" className="btn-ghost btn-sm">
                 View all
@@ -183,7 +185,7 @@ export default function StudentDashboardPage() {
                     <Link
                       key={sub._id}
                       href={`/submissions/${sub._id}`}
-                      className="block p-3 rounded-xl bg-bg-hover border border-border hover:border-accent/20 transition-colors"
+                      className="block p-4 rounded-xl bg-bg-surface border border-border-hairline hover:border-accent-violet/20 hover:bg-bg-wash-violet transition-all duration-200"
                     >
                       <p className="text-xs font-medium text-text-primary truncate">
                         {task && typeof task === "object" ? task.title : "Deleted Task"}
@@ -199,14 +201,14 @@ export default function StudentDashboardPage() {
           </SectionCard>
 
           {/* Announcements */}
-          <SectionCard title="Announcements">
+          <SectionCard title="Announcements" className="p-6 md:p-8">
             {!announcements?.length ? (
               <p className="text-sm text-text-muted py-4 text-center">No announcements</p>
             ) : (
               <div className="space-y-3">
                 {announcements.slice(0, 3).map((ann) => (
-                  <div key={ann._id} className="p-3 rounded-xl bg-bg-hover border border-border">
-                    <div className="flex items-start justify-between gap-2 mb-1">
+                  <div key={ann._id} className="p-4 rounded-xl bg-bg-surface border border-border-hairline">
+                    <div className="flex items-start justify-between gap-2 mb-2">
                       <p className="text-xs font-medium text-text-primary flex-1">{ann.title}</p>
                       <AnnouncementTypeBadge type={ann.type} />
                     </div>
@@ -218,31 +220,31 @@ export default function StudentDashboardPage() {
           </SectionCard>
 
           {/* Contact Support */}
-          <SectionCard title="Need Help?">
+          <SectionCard title="Need Help?" className="p-6 md:p-8">
             <div className="space-y-3">
               <p className="text-sm text-text-muted mb-2">
                 If you face any issues with the portal or assignments, contact us:
               </p>
               
-              <div className="p-3 rounded-xl bg-bg-hover border border-border flex items-center gap-3 hover:border-accent/30 transition-colors">
-                <div className="p-2 bg-accent/10 rounded-lg">
-                  <PhoneCall className="h-4 w-4 text-accent" />
+              <div className="p-3 rounded-lg bg-bg-surface border border-border-hairline flex items-center gap-3 hover:border-accent-violet/30 hover:bg-bg-wash-violet transition-colors">
+                <div className="p-2 bg-bg-wash-violet rounded-md">
+                  <PhoneCall className="h-4 w-4 text-accent-violet" />
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-text-primary">Love Varshney</p>
-                  <a href="tel:9720028781" className="text-sm font-medium text-text-secondary hover:text-accent transition-colors">
+                  <a href="tel:9720028781" className="text-sm font-medium text-text-secondary hover:text-accent-violet transition-colors">
                     +91 97200 28781
                   </a>
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-bg-hover border border-border flex items-center gap-3 hover:border-accent/30 transition-colors">
-                <div className="p-2 bg-accent/10 rounded-lg">
-                  <PhoneCall className="h-4 w-4 text-accent" />
+              <div className="p-3 rounded-lg bg-bg-surface border border-border-hairline flex items-center gap-3 hover:border-accent-violet/30 hover:bg-bg-wash-violet transition-colors">
+                <div className="p-2 bg-bg-wash-violet rounded-md">
+                  <PhoneCall className="h-4 w-4 text-accent-violet" />
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-text-primary">Sarthak Kaushik</p>
-                  <a href="tel:7060321453" className="text-sm font-medium text-text-secondary hover:text-accent transition-colors">
+                  <a href="tel:7060321453" className="text-sm font-medium text-text-secondary hover:text-accent-violet transition-colors">
                     +91 70603 21453
                   </a>
                 </div>

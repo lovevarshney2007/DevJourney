@@ -14,7 +14,8 @@ const otpLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(3, "1
 const uploadLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, "1 h"), ephemeralCache: new Map() });
 const generalApiLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(60, "1 m"), ephemeralCache: new Map() });
 
-const PUBLIC_ROUTES = ["/", "/login", "/register"];
+const AUTH_PAGES = ["/login", "/register"];
+const PUBLIC_ROUTES = ["/"];
 const API_PUBLIC = ["/api/auth/login", "/api/auth/register", "/api/auth/send-otp"];
 
 /**
@@ -96,8 +97,8 @@ export async function middleware(req: NextRequest) {
 
   const token = req.cookies.get("devjourney_token")?.value;
 
-  // Public pages — redirect to dashboard if already logged in
-  if (PUBLIC_ROUTES.includes(pathname)) {
+  // Auth pages — redirect to dashboard if already logged in
+  if (AUTH_PAGES.includes(pathname)) {
     if (token) {
       const payload = decodeJwtPayload(token);
       if (payload) {
@@ -105,6 +106,11 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL(dest, req.url));
       }
     }
+    return NextResponse.next();
+  }
+
+  // Public pages — anyone can view (e.g. landing page)
+  if (PUBLIC_ROUTES.includes(pathname)) {
     return NextResponse.next();
   }
 
