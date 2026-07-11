@@ -48,8 +48,8 @@ const UserSchema = new Schema<IUserDocument>(
       type: String,
       sparse: true,
       validate: {
-        validator: (v: string) => /^25\d{5}$/.test(v),
-        message: "Student number must be 7 digits starting with 25",
+        validator: (v: string) => /^\d{7,8}$/.test(v),
+        message: "Student number must be 7 or 8 digits",
       },
     },
     role: {
@@ -68,6 +68,9 @@ const UserSchema = new Schema<IUserDocument>(
     timestamps: true,
   }
 );
+
+UserSchema.index({ role: 1, totalPoints: -1 });
+UserSchema.index({ email: 1 });
 
 // Hash password before saving
 UserSchema.pre("save", async function (next) {

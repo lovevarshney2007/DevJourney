@@ -19,6 +19,7 @@ export default function TasksPage() {
     queryKey: ["tasks", domain],
     queryFn: () =>
       axios.get(`/api/tasks?limit=50${domain ? `&domain=${domain}` : ""}`).then((r) => r.data.data as ITask[]),
+    refetchInterval: 10000, // Real-time updates every 10 seconds
   });
 
   const filtered = data?.filter((t) =>
@@ -115,7 +116,6 @@ export default function TasksPage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-accent">{task.points}pts</span>
                         <ChevronRight className="h-4 w-4 text-text-muted group-hover:text-accent transition-colors" />
                       </div>
                     </div>

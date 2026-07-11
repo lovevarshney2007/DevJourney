@@ -9,7 +9,7 @@ import { PageHeader, Skeleton, Avatar } from "@/components/ui/Common";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { IUser } from "@/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SettingsPage() {
   const queryClient = useQueryClient();
@@ -33,18 +33,16 @@ export default function SettingsPage() {
     },
   });
 
-  import("react").then((React) => {
-    React.useEffect(() => {
-      if (user) {
-        reset({
-          name: user.name,
-          github: user.github || "",
-          linkedin: user.linkedin || "",
-        });
-        setAvatarUrl(user.avatar || "");
-      }
-    }, [user, reset]);
-  });
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name,
+        github: user.github || "",
+        linkedin: user.linkedin || "",
+      });
+      setAvatarUrl(user.avatar || "");
+    }
+  }, [user, reset]);
 
   const updateMutation = useMutation({
     mutationFn: (data: any) => axios.put("/api/auth/me", { ...data, avatar: avatarUrl }),

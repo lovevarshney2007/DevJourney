@@ -1,4 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL || "",
+  token: process.env.UPSTASH_REDIS_REST_TOKEN || "",
+});
+
+// Ratelimiters
+const loginLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(5, "1 m"), ephemeralCache: new Map() });
+const registerLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(3, "1 m"), ephemeralCache: new Map() });
+const otpLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(3, "10 m"), ephemeralCache: new Map() });
+const uploadLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, "1 h"), ephemeralCache: new Map() });
+const generalApiLimiter = new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(60, "1 m"), ephemeralCache: new Map() });
 
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
 const API_PUBLIC = ["/api/auth/login", "/api/auth/register", "/api/auth/send-otp"];
@@ -23,8 +37,48 @@ function decodeJwtPayload(token: string): { userId: string; role: string; name: 
   }
 }
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  
+  // API Rate Limiting
+  if (pathname.startsWith("/api/")) {
+    const ip = req.headers.get("x-forwarded-for") || req.ip || "127.0.0.1";
+    let limiter = generalApiLimiter;
+    let identifier = `api_${ip}`;
+
+    if (pathname === "/api/auth/login") {
+      limiter = loginLimiter;
+      identifier = `login_${ip}`;
+    } else if (pathname === "/api/auth/register") {
+      limiter = registerLimiter;
+      identifier = `register_${ip}`;
+    } else if (pathname === "/api/auth/send-otp") {
+      limiter = otpLimiter;
+      identifier = `otp_${ip}`;
+    } else if (pathname.startsWith("/api/upload")) {
+      limiter = uploadLimiter;
+      identifier = `upload_${ip}`;
+    }
+
+    try {
+      const { success, limit, remaining, reset } = await limiter.limit(identifier);
+      if (!success) {
+        return NextResponse.json(
+          { success: false, error: "Too many requests. Please try again later." },
+          {
+            status: 429,
+            headers: {
+              "X-RateLimit-Limit": limit.toString(),
+              "X-RateLimit-Remaining": remaining.toString(),
+              "X-RateLimit-Reset": reset.toString(),
+            },
+          }
+        );
+      }
+    } catch (e) {
+      console.error("Rate limit error", e);
+    }
+  }
 
   // Allow public API routes
   if (API_PUBLIC.some((r) => pathname.startsWith(r))) {

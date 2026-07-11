@@ -30,10 +30,7 @@ export async function POST(req: NextRequest) {
     // Key format: otp:user@email.com
     await redis.setex(`otp:${email.toLowerCase()}`, 600, otp);
 
-    // TEMPORARY FOR TESTING: Print OTP to terminal
-    console.log("\n===========================================");
-    console.log(`🔑 DEVJOURNEY OTP FOR ${email}: ${otp}`);
-    console.log("===========================================\n");
+    // Removed dev logging of OTP for security
 
     // 4. Send the OTP via Email
     const emailSent = await sendOTP(email, otp);

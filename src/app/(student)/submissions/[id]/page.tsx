@@ -17,6 +17,7 @@ export default function SubmissionDetailPage() {
     queryKey: ["submission", id],
     queryFn: () =>
       axios.get(`/api/submissions/${id}`).then((r) => r.data.data as { submission: ISubmission; review: IReview | null }),
+    refetchInterval: 10000,
   });
 
   if (isLoading) {

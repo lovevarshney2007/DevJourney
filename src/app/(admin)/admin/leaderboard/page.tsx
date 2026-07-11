@@ -6,15 +6,23 @@ import { Trophy, Search, Medal, Target } from "lucide-react";
 import { PageHeader, Skeleton, Avatar } from "@/components/ui/Common";
 import { Input } from "@/components/ui/Input";
 import { useState } from "react";
+import { ALL_DOMAINS } from "@/types";
 import { IUser } from "@/types";
 
 export default function AdminLeaderboardPage() {
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("points");
+  const [domain, setDomain] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(20);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["admin-leaderboard", search],
-    queryFn: () => axios.get(`/api/students?search=${search}&limit=50`).then((r) => r.data.data as IUser[]),
+  const { data: responseData, isLoading } = useQuery({
+    queryKey: ["admin-leaderboard", search, sortBy, domain, page, limit],
+    queryFn: () => axios.get(`/api/students?search=${search}&sortBy=${sortBy}&domain=${domain}&page=${page}&limit=${limit}`).then((r) => r.data),
   });
+
+  const data: IUser[] = responseData?.data || [];
+  const totalPages = responseData?.totalPages || 1;
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -22,13 +30,45 @@ export default function AdminLeaderboardPage() {
         title="Leaderboard" 
         subtitle="Rankings and total points across all domains"
         actions={
-          <div className="w-72">
-            <Input 
-              placeholder="Search students..." 
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              icon={<Search className="h-4 w-4" />}
-            />
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 w-full sm:w-auto">
+            <select
+              className="input max-w-[150px]"
+              value={domain}
+              onChange={(e) => { setDomain(e.target.value); setPage(1); }}
+            >
+              <option value="">All Domains</option>
+              {ALL_DOMAINS.map(d => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+            <select
+              className="input max-w-[150px]"
+              value={sortBy}
+              onChange={(e) => { setSortBy(e.target.value); setPage(1); }}
+            >
+              <option value="points">By Points</option>
+              <option value="tasks">By Tasks Done</option>
+              <option value="latest">By Latest Join</option>
+              <option value="name">By Name (A-Z)</option>
+            </select>
+            <select
+              className="input max-w-[100px]"
+              value={limit}
+              onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }}
+            >
+              <option value={10}>10 per page</option>
+              <option value={20}>20 per page</option>
+              <option value={50}>50 per page</option>
+              <option value={100}>100 per page</option>
+            </select>
+            <div className="w-full sm:w-64">
+              <Input 
+                placeholder="Search students..." 
+                value={search}
+                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                icon={<Search className="h-4 w-4" />}
+              />
+            </div>
           </div>
         }
       />
@@ -93,6 +133,27 @@ export default function AdminLeaderboardPage() {
                 )}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {/* Pagination controls */}
+        {totalPages > 1 && (
+          <div className="p-4 border-t border-border flex items-center justify-between">
+            <button 
+              className="btn-secondary btn-sm"
+              disabled={page === 1}
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+            >
+              Previous
+            </button>
+            <span className="text-sm text-text-muted">Page {page} of {totalPages}</span>
+            <button 
+              className="btn-secondary btn-sm"
+              disabled={page === totalPages}
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            >
+              Next
+            </button>
           </div>
         )}
       </div>

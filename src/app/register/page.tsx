@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,6 +27,7 @@ export default function RegisterPage() {
     register,
     handleSubmit,
     watch,
+    setValue,
     getValues,
     formState: { errors, isSubmitting },
   } = useForm<RegisterInput>({
@@ -34,15 +35,22 @@ export default function RegisterPage() {
   });
 
   const studentNumber = watch("studentNumber");
+  const name = watch("name");
+
+  useEffect(() => {
+    if (name && studentNumber) {
+      const cleanName = name.split(" ")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+      const generatedEmail = `${cleanName}${studentNumber}@akgec.ac.in`;
+      setValue("email", generatedEmail, { shouldValidate: true });
+    }
+  }, [name, studentNumber, setValue]);
 
   const onSendOtp = async (data: RegisterInput) => {
-    console.log("Frontend submitting OTP request with data:", data);
     setStep1Data(data);
     setIsSendingOtp(true);
     setOtpError("");
     try {
       const res = await axios.post("/api/auth/send-otp", { email: data.email });
-      console.log("Send OTP response:", res.data);
       
       if (res.data.message && res.data.message.includes("Email failed")) {
         toast.error("Could not send email. Check backend terminal for OTP.");
@@ -72,7 +80,6 @@ export default function RegisterPage() {
     const finalData = { ...step1Data, otp: data.otp };
     
     try {
-      console.log("Submitting registration data:", finalData);
       await axios.post("/api/auth/register", finalData);
       toast.success("Account created! Welcome to DevJourney.");
       router.push("/dashboard");
@@ -115,13 +122,7 @@ export default function RegisterPage() {
           <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-accent/5 border border-accent/20 mb-5">
             <Info className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
             <p className="text-xs text-text-secondary leading-relaxed">
-              Your email must be in the format{" "}
-              <span className="text-accent font-mono">
-                {studentNumber
-                  ? `yourname${studentNumber}@akgec.ac.in`
-                  : "yourname25XXXXX@akgec.ac.in"}
-              </span>
-              {" "}— it must contain your student number.
+              Your email will be automatically generated from your first name and student number.
             </p>
           </div>
         )}
@@ -147,9 +148,9 @@ export default function RegisterPage() {
                 <Input
                   label="Student Number"
                   placeholder="2510084"
-                  maxLength={7}
+                  maxLength={8}
                   error={errors.studentNumber?.message}
-                  hint="7 digits starting with 25 (e.g. 2510084)"
+                  hint="7 or 8 digits (e.g. 2510084)"
                   {...register("studentNumber")}
                 />
 
@@ -158,6 +159,8 @@ export default function RegisterPage() {
                   type="email"
                   placeholder={studentNumber ? `yourname${studentNumber}@akgec.ac.in` : "yourname25XXXXX@akgec.ac.in"}
                   error={errors.email?.message}
+                  readOnly
+                  className="bg-accent/5 opacity-80"
                   {...register("email")}
                 />
 

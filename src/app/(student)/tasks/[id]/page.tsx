@@ -12,11 +12,16 @@ import {
   ArrowLeft, Calendar, Download, ExternalLink, Github,
   Link2, FileText, Upload, X, Send, AlertTriangle,
 } from "lucide-react";
-import Link from "next/link";
 import { DomainBadge, StatusBadge } from "@/components/ui/Badges";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Common";
+import dynamic from "next/dynamic";
+
+const FileViewer = dynamic(() => import("@/components/FileViewer").then((mod) => mod.FileViewer), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[600px] w-full rounded-xl" />
+});
 import { createSubmissionSchema, CreateSubmissionInput } from "@/lib/validations";
 import { formatDate, formatDateTime, isDeadlinePassed, isDeadlineSoon, cn } from "@/lib/utils";
 import { ITask, ISubmission } from "@/types";
@@ -34,6 +39,7 @@ export default function TaskDetailPage() {
     queryKey: ["task", id],
     queryFn: () =>
       axios.get(`/api/tasks/${id}`).then((r) => r.data.data as { task: ITask; mySubmission: ISubmission | null }),
+    refetchInterval: 10000,
   });
 
   const { task, mySubmission } = data || {};
@@ -169,26 +175,10 @@ export default function TaskDetailPage() {
               <div className="mt-8 pt-6 border-t border-border space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-text-primary">Assignment Document</h3>
-                  <a href={task.pdfUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-sm">
-                    <Download className="h-4 w-4" />
-                    Download Document
-                  </a>
                 </div>
                 
-                <div className="w-full h-[600px] rounded-xl overflow-hidden border border-border bg-bg-card shadow-sm">
-                  {task.pdfUrl.toLowerCase().includes('.pdf') ? (
-                    <iframe 
-                      src={task.pdfUrl} 
-                      className="w-full h-full" 
-                      title="Assignment Document"
-                    />
-                  ) : (
-                    <iframe 
-                      src={`https://docs.google.com/gview?url=${encodeURIComponent(task.pdfUrl)}&embedded=true`}
-                      className="w-full h-full" 
-                      title="Assignment Document"
-                    />
-                  )}
+                <div className="w-full rounded-xl overflow-hidden border border-border shadow-sm">
+                  <FileViewer url={task.pdfUrl} />
                 </div>
               </div>
             )}
@@ -333,7 +323,7 @@ export default function TaskDetailPage() {
                         <>
                           <Upload className="h-5 w-5 text-text-muted" />
                           <span className="text-sm text-text-muted">Click to attach files</span>
-                          <span className="text-xs text-text-muted">PDF, images, docs — max 50MB each</span>
+                          <span className="text-xs text-text-muted">PDF, images, docs — max 2MB each</span>
                         </>
                       )}
                       <input
@@ -398,11 +388,7 @@ export default function TaskDetailPage() {
                 {formatDate(task.deadline)}
               </p>
             </div>
-            <div className="divider" />
-            <div>
-              <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Points</p>
-              <p className="text-2xl font-bold text-accent">{task.points}</p>
-            </div>
+
             <div className="divider" />
             <div>
               <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Status</p>

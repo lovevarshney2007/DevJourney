@@ -31,6 +31,7 @@ const TaskSchema = new Schema<ITaskDocument>(
       required: [true, "Description is required"],
       trim: true,
       minlength: 10,
+      maxlength: 5000,
     },
     domains: {
       type: [String],
@@ -80,6 +81,7 @@ const TaskSchema = new Schema<ITaskDocument>(
 
 TaskSchema.index({ status: 1, deadline: 1 });
 TaskSchema.index({ domains: 1 });
+TaskSchema.index({ createdAt: -1 });
 
 const Task =
   mongoose.models.Task || mongoose.model<ITaskDocument>("Task", TaskSchema);

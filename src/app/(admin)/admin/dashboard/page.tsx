@@ -29,14 +29,14 @@ export default function AdminDashboardPage() {
     { title: "Total Students", value: data?.totalStudents || 0, icon: <Users className="h-5 w-5" />, accentColor: "text-blue-400" },
     { title: "Total Tasks", value: data?.totalTasks || 0, icon: <ClipboardList className="h-5 w-5" />, accentColor: "text-purple-400", description: `${data?.publishedTasks || 0} published` },
     { title: "Pending Reviews", value: data?.pendingReviews || 0, icon: <Inbox className="h-5 w-5" />, accentColor: "text-yellow-400" },
-    { title: "Tasks Live", value: data?.publishedTasks || 0, icon: <TrendingUp className="h-5 w-5" />, accentColor: "text-green-400" },
+    { title: "Active Tasks", value: data?.publishedTasks || 0, icon: <TrendingUp className="h-5 w-5" />, accentColor: "text-green-400" },
   ];
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <PageHeader
         title="Admin Dashboard"
-        description="Overview of DevJourney platform activity"
+        description="Overview of CCC evaluation platform activity"
         actions={
           <Link href="/admin/submissions" className="btn-primary btn-sm">
             <Inbox className="h-4 w-4" />

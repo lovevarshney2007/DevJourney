@@ -9,40 +9,29 @@ export const registerSchema = z.object({
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be at most 50 characters")
     .trim(),
-  email: z
-    .string()
-    .email("Invalid email address")
-    .endsWith("@akgec.ac.in", "Email must be an AKGEC email (@akgec.ac.in)")
-    .toLowerCase(),
   studentNumber: z
     .string()
-    .regex(/^25\d{5}$/, "Student number must be 7 digits and start with 25"),
+    .regex(/^\d{7,8}$/, "Student number must be 7 or 8 digits"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
     .max(100),
   otp: z.string().optional(),
+  email: z.string().email("Invalid email address").optional(),
 }).superRefine((data, ctx) => {
-  if (data.email && data.studentNumber) {
-    if (!validateEmailStudentNumberMatch(data.email, data.studentNumber)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Email must contain your student number (${data.studentNumber})`,
-        path: ["email"]
-      });
-    }
+  const cleanName = data.name.split(" ")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+  const expectedEmail = `${cleanName}${data.studentNumber}@akgec.ac.in`;
+  
+  if (data.email && data.email !== expectedEmail) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `Email must be ${expectedEmail}`,
+      path: ["email"]
+    });
   }
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
-
-// Cross-field validation: email must contain studentNumber
-export function validateEmailStudentNumberMatch(
-  email: string,
-  studentNumber: string
-): boolean {
-  return email.toLowerCase().includes(studentNumber);
-}
 
 export const loginSchema = z.object({
   email: z.string().email("Invalid email address").toLowerCase(),
@@ -67,6 +56,7 @@ export const createTaskSchema = z.object({
   description: z
     .string()
     .min(10, "Description must be at least 10 characters")
+    .max(5000, "Description must be at most 5000 characters")
     .trim(),
   domains: z
     .array(z.enum(ALL_DOMAINS as [string, ...string[]]))

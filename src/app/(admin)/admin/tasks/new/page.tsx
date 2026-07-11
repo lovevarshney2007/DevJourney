@@ -214,7 +214,7 @@ export default function NewTaskPage() {
                   </div>
                   <div className="text-center">
                     <p className="text-sm text-text-secondary font-medium">Click to upload assignment document</p>
-                    <p className="text-xs text-text-muted mt-1">PDF or Word (.docx) — max 50MB</p>
+                    <p className="text-xs text-text-muted mt-1">PDF or Word (.docx) — max 2MB</p>
                   </div>
                 </>
               )}

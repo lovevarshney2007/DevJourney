@@ -105,12 +105,12 @@ export function StudentSidebar({ user }: StudentSidebarProps) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex flex-col w-60 h-screen bg-bg-secondary border-r border-border fixed left-0 top-0 z-30">
+      <aside className="hidden md:flex flex-col w-60 h-screen bg-bg-surface border-r border-border fixed left-0 top-0 z-30">
         <SidebarContent />
       </aside>
 
       {/* Mobile header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-bg-secondary border-b border-border px-4 py-3 flex items-center justify-between glass">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-bg/90 backdrop-blur-md border-b border-border px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="relative h-7 w-7 rounded-lg overflow-hidden ring-1 ring-accent/30 bg-bg-hover">
             <Image
@@ -140,7 +140,7 @@ export function StudentSidebar({ user }: StudentSidebarProps) {
           <motion.aside
             initial={{ x: -240 }}
             animate={{ x: 0 }}
-            className="relative w-60 h-full bg-bg-secondary border-r border-border z-10"
+            className="relative w-60 h-full bg-bg-surface border-r border-border z-10"
           >
             <button
               onClick={() => setOpen(false)}

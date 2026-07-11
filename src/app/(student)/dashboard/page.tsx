@@ -29,16 +29,19 @@ export default function StudentDashboardPage() {
   const { data: tasks, isLoading: tasksLoading } = useQuery({
     queryKey: ["tasks", "published"],
     queryFn: () => axios.get("/api/tasks?status=published&limit=5").then((r) => r.data.data as ITask[]),
+    refetchInterval: 10000, // Real-time updates every 10 seconds
   });
 
   const { data: submissions, isLoading: subsLoading } = useQuery({
     queryKey: ["my-submissions"],
     queryFn: () => axios.get("/api/submissions?limit=5").then((r) => r.data.data as ISubmission[]),
+    refetchInterval: 10000,
   });
 
   const { data: announcements } = useQuery({
     queryKey: ["announcements"],
     queryFn: () => axios.get("/api/announcements?limit=5").then((r) => r.data.data as IAnnouncement[]),
+    refetchInterval: 30000, // Announcements don't change as often
   });
 
   const activeTasks = tasks?.filter((t) => !isDeadlinePassed(t.deadline)) || [];
@@ -48,8 +51,8 @@ export default function StudentDashboardPage() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <PageHeader
-        title="Dashboard"
-        description="Welcome back! Here's what's happening."
+        title="Student Dashboard"
+        description="Welcome to the CCC task evaluation portal."
       />
 
       {/* Stats */}
@@ -115,8 +118,8 @@ export default function StudentDashboardPage() {
             ) : activeTasks.length === 0 ? (
               <EmptyState
                 icon={<ClipboardList className="h-8 w-8" />}
-                title="No active tasks"
-                description="Check back later for new tasks from the CCC team."
+                title="No active assignments"
+                description="Check back later for new tasks from the Cloud Computing Cell."
               />
             ) : (
               <div className="space-y-3">
@@ -145,7 +148,6 @@ export default function StudentDashboardPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-xs font-semibold text-accent">{task.points}pts</span>
                       <ArrowRight className="h-4 w-4 text-text-muted group-hover:text-accent transition-colors" />
                     </div>
                   </Link>

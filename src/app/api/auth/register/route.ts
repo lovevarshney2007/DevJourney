@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { signToken } from "@/lib/auth";
-import { registerSchema, validateEmailStudentNumberMatch } from "@/lib/validations";
+import { registerSchema, RegisterInput, validateEmailStudentNumberMatch } from "@/lib/validations";
+import { sanitizeInput } from "@/lib/sanitize";
+import { logger } from "@/lib/logger";
 import User from "@/models/User";
 import { redis } from "@/lib/redis";
 
@@ -9,7 +11,9 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const body = await req.json();
+    const rawBody = await req.json();
+    const body = sanitizeInput(rawBody) as RegisterInput;
+    
     const parsed = registerSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -114,8 +118,8 @@ export async function POST(req: NextRequest) {
     });
 
     return response;
-  } catch (error) {
-    console.error("[REGISTER]", error);
+  } catch (error: any) {
+    logger.error({ err: error }, "Registration error");
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }

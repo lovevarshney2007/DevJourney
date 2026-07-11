@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -26,14 +26,44 @@ export function Modal({
   children,
   size = "md",
 }: ModalProps) {
-  // Close on Escape
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Close on Escape & Focus Trap
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      
+      if (e.key === "Tab" && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        if (!e.shiftKey && document.activeElement === lastElement) {
+          firstElement?.focus();
+          e.preventDefault();
+        } else if (e.shiftKey && document.activeElement === firstElement) {
+          lastElement?.focus();
+          e.preventDefault();
+        }
+      }
     };
-    document.addEventListener("keydown", handleKey);
+    
+    if (isOpen) {
+      document.addEventListener("keydown", handleKey);
+      // initial focus
+      setTimeout(() => {
+        const closeBtn = modalRef.current?.querySelector('button[aria-label="Close modal"]') as HTMLElement;
+        if (closeBtn) closeBtn.focus();
+      }, 100);
+    }
+    
     return () => document.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+  }, [isOpen, onClose]);
 
   // Lock scroll
   useEffect(() => {
@@ -54,27 +84,31 @@ export function Modal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={title ? "modal-title" : undefined}
+            initial={{ opacity: 0, scale: 0.97, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            exit={{ opacity: 0, scale: 0.97, y: 10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`relative w-full ${sizeClasses[size]} card max-h-[90vh] overflow-y-auto z-10`}
+            className={`relative w-full ${sizeClasses[size]} card bg-bg-surface border-border max-h-[90vh] overflow-y-auto z-10 shadow-lg`}
           >
             {/* Header */}
             {title && (
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-text-primary">
+              <div className="flex items-center justify-between mb-5 pb-4 border-b border-border">
+                <h2 id="modal-title" className="text-lg font-semibold text-text-primary">
                   {title}
                 </h2>
                 <button
                   onClick={onClose}
-                  className="btn-ghost p-1.5 rounded-lg"
+                  className="btn-ghost p-1.5 rounded-md -mr-2"
                   aria-label="Close modal"
                 >
                   <X className="h-4 w-4" />
@@ -85,13 +119,16 @@ export function Modal({
             {!title && (
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 btn-ghost p-1.5 rounded-lg z-10"
+                className="absolute top-4 right-4 btn-ghost p-1.5 rounded-md z-10"
+                aria-label="Close modal"
               >
                 <X className="h-4 w-4" />
               </button>
             )}
 
-            {children}
+            <div className="relative">
+              {children}
+            </div>
           </motion.div>
         </div>
       )}
@@ -123,9 +160,9 @@ export function ConfirmModal({
 }: ConfirmModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm">
-      <p className="text-text-secondary text-sm mb-6">{message}</p>
+      <p className="text-text-secondary text-sm mb-6 leading-relaxed">{message}</p>
       <div className="flex items-center justify-end gap-3">
-        <button className="btn-secondary" onClick={onClose}>
+        <button className="btn-secondary" onClick={onClose} disabled={loading}>
           Cancel
         </button>
         <button
@@ -133,7 +170,7 @@ export function ConfirmModal({
           onClick={onConfirm}
           disabled={loading}
         >
-          {loading ? "..." : confirmLabel}
+          {loading ? "Processing..." : confirmLabel}
         </button>
       </div>
     </Modal>

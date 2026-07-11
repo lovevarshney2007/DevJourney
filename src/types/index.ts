@@ -4,10 +4,9 @@ export type Domain =
   | "Frontend"
   | "AI/ML"
   | "Cloud Computing"
-  | "Android"
+  | "App Development"
   | "Cyber Security"
   | "UI/UX"
-  | "Open Source"
   | "Others";
 
 export const ALL_DOMAINS: Domain[] = [
@@ -15,10 +14,9 @@ export const ALL_DOMAINS: Domain[] = [
   "Frontend",
   "AI/ML",
   "Cloud Computing",
-  "Android",
+  "App Development",
   "Cyber Security",
   "UI/UX",
-  "Open Source",
   "Others",
 ];
 
@@ -27,10 +25,9 @@ export const DOMAIN_COLORS: Record<Domain, string> = {
   Frontend: "bg-blue-500/10 text-blue-400 border-blue-500/30",
   "AI/ML": "bg-purple-500/10 text-purple-400 border-purple-500/30",
   "Cloud Computing": "bg-sky-500/10 text-sky-400 border-sky-500/30",
-  Android: "bg-green-500/10 text-green-400 border-green-500/30",
+  "App Development": "bg-green-500/10 text-green-400 border-green-500/30",
   "Cyber Security": "bg-red-500/10 text-red-400 border-red-500/30",
   "UI/UX": "bg-pink-500/10 text-pink-400 border-pink-500/30",
-  "Open Source": "bg-orange-500/10 text-orange-400 border-orange-500/30",
   Others: "bg-gray-500/10 text-gray-400 border-gray-500/30",
 };
 
