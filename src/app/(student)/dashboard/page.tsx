@@ -11,6 +11,7 @@ import {
   ArrowRight,
   CalendarDays,
   AlertCircle,
+  PhoneCall
 } from "lucide-react";
 import Link from "next/link";
 import { StatCard, EmptyState, Skeleton, SectionCard, PageHeader } from "@/components/ui/Common";
@@ -28,19 +29,19 @@ interface DashboardData {
 export default function StudentDashboardPage() {
   const { data: tasks, isLoading: tasksLoading } = useQuery({
     queryKey: ["tasks", "published"],
-    queryFn: () => axios.get("/api/tasks?status=published&limit=5").then((r) => r.data.data as ITask[]),
+    queryFn: () => axios.get("/api/tasks?status=published&limit=5").then((r) => (r.data.data as ITask[]) || []),
     refetchInterval: 10000, // Real-time updates every 10 seconds
   });
 
   const { data: submissions, isLoading: subsLoading } = useQuery({
     queryKey: ["my-submissions"],
-    queryFn: () => axios.get("/api/submissions?limit=5").then((r) => r.data.data as ISubmission[]),
+    queryFn: () => axios.get("/api/submissions?limit=5").then((r) => (r.data.data as ISubmission[]) || []),
     refetchInterval: 10000,
   });
 
   const { data: announcements } = useQuery({
     queryKey: ["announcements"],
-    queryFn: () => axios.get("/api/announcements?limit=5").then((r) => r.data.data as IAnnouncement[]),
+    queryFn: () => axios.get("/api/announcements?limit=5").then((r) => (r.data.data as IAnnouncement[]) || []),
     refetchInterval: 30000, // Announcements don't change as often
   });
 
@@ -214,6 +215,39 @@ export default function StudentDashboardPage() {
                 ))}
               </div>
             )}
+          </SectionCard>
+
+          {/* Contact Support */}
+          <SectionCard title="Need Help?">
+            <div className="space-y-3">
+              <p className="text-sm text-text-muted mb-2">
+                If you face any issues with the portal or assignments, contact us:
+              </p>
+              
+              <div className="p-3 rounded-xl bg-bg-hover border border-border flex items-center gap-3 hover:border-accent/30 transition-colors">
+                <div className="p-2 bg-accent/10 rounded-lg">
+                  <PhoneCall className="h-4 w-4 text-accent" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-text-primary">Love Varshney</p>
+                  <a href="tel:9720028781" className="text-sm font-medium text-text-secondary hover:text-accent transition-colors">
+                    +91 97200 28781
+                  </a>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-bg-hover border border-border flex items-center gap-3 hover:border-accent/30 transition-colors">
+                <div className="p-2 bg-accent/10 rounded-lg">
+                  <PhoneCall className="h-4 w-4 text-accent" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-text-primary">Sarthak Kaushik</p>
+                  <a href="tel:7060321453" className="text-sm font-medium text-text-secondary hover:text-accent transition-colors">
+                    +91 70603 21453
+                  </a>
+                </div>
+              </div>
+            </div>
           </SectionCard>
         </div>
       </div>

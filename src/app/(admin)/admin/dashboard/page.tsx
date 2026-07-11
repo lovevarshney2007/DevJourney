@@ -22,7 +22,7 @@ interface AdminDashboardData {
 export default function AdminDashboardPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["admin-dashboard"],
-    queryFn: () => axios.get("/api/admin/dashboard").then((r) => r.data.data as AdminDashboardData),
+    queryFn: () => axios.get("/api/admin/dashboard").then((r) => (r.data.data as AdminDashboardData) || null),
   });
 
   const stats = [

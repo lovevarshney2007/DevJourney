@@ -38,7 +38,7 @@ export default function TaskDetailPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["task", id],
     queryFn: () =>
-      axios.get(`/api/tasks/${id}`).then((r) => r.data.data as { task: ITask; mySubmission: ISubmission | null }),
+      axios.get(`/api/tasks/${id}`).then((r) => (r.data.data as { task: ITask; mySubmission: ISubmission | null }) || null),
     refetchInterval: 10000,
   });
 

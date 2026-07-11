@@ -16,7 +16,7 @@ export default function SubmissionDetailPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["submission", id],
     queryFn: () =>
-      axios.get(`/api/submissions/${id}`).then((r) => r.data.data as { submission: ISubmission; review: IReview | null }),
+      axios.get(`/api/submissions/${id}`).then((r) => (r.data.data as { submission: ISubmission; review: IReview | null }) || null),
     refetchInterval: 10000,
   });
 

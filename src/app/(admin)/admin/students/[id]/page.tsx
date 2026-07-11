@@ -21,7 +21,7 @@ export default function AdminStudentDetailPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-student", id],
-    queryFn: () => axios.get(`/api/students/${id}`).then((r) => r.data.data as StudentDetailData),
+    queryFn: () => axios.get(`/api/students/${id}`).then((r) => (r.data.data as StudentDetailData) || null),
   });
 
   if (isLoading) {

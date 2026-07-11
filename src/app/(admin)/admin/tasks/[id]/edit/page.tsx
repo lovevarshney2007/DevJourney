@@ -26,7 +26,7 @@ export default function EditTaskPage() {
 
   const { data: task, isLoading } = useQuery({
     queryKey: ["task", id],
-    queryFn: () => axios.get(`/api/tasks/${id}`).then((r) => r.data.data as ITask),
+    queryFn: () => axios.get(`/api/tasks/${id}`).then((r) => (r.data.data as ITask) || null),
   });
 
   const {

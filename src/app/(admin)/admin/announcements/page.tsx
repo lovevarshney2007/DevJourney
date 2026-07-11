@@ -24,7 +24,7 @@ export default function AdminAnnouncementsPage() {
 
   const { data: announcements, isLoading } = useQuery({
     queryKey: ["announcements-admin"],
-    queryFn: () => axios.get("/api/announcements?limit=50").then((r) => r.data.data as IAnnouncement[]),
+    queryFn: () => axios.get("/api/announcements?limit=50").then((r) => (r.data.data as IAnnouncement[]) || []),
   });
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<CreateAnnouncementInput>({

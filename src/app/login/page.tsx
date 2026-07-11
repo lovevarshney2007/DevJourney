@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, PhoneCall } from "lucide-react";
 import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -113,6 +113,24 @@ export default function LoginPage() {
                 Create one
               </Link>
             </p>
+
+            <div className="mt-6 pt-5 border-t border-border/50 text-left">
+              <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Facing Issues?</p>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-text-secondary">Love Varshney</span>
+                  <a href="tel:9720028781" className="text-accent hover:text-accent-hover font-medium flex items-center gap-1.5 transition-colors">
+                    <PhoneCall className="h-3.5 w-3.5" /> +91 97200 28781
+                  </a>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-text-secondary">Sarthak Kaushik</span>
+                  <a href="tel:7060321453" className="text-accent hover:text-accent-hover font-medium flex items-center gap-1.5 transition-colors">
+                    <PhoneCall className="h-3.5 w-3.5" /> +91 70603 21453
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -11,7 +11,7 @@ import { IAnnouncement, IUser } from "@/types";
 export default function AnnouncementsPage() {
   const { data: announcements, isLoading } = useQuery({
     queryKey: ["announcements"],
-    queryFn: () => axios.get("/api/announcements?limit=50").then((r) => r.data.data as IAnnouncement[]),
+    queryFn: () => axios.get("/api/announcements?limit=50").then((r) => (r.data.data as IAnnouncement[]) || []),
   });
 
   return (

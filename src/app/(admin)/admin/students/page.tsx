@@ -13,7 +13,7 @@ export default function AdminStudentsPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["students", search],
-    queryFn: () => axios.get(`/api/students?limit=100${search ? `&search=${search}` : ""}`).then((r) => r.data.data as IUser[]),
+    queryFn: () => axios.get(`/api/students?limit=100${search ? `&search=${search}` : ""}`).then((r) => (r.data.data as IUser[]) || []),
   });
 
   return (

@@ -19,7 +19,7 @@ export default function AdminSubmissionsPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["admin-submissions", status, isLate],
     queryFn: () =>
-      axios.get(`/api/submissions?limit=100${status ? `&status=${status}` : ""}${isLate ? `&isLate=${isLate}` : ""}`).then((r) => r.data.data as ISubmission[]),
+      axios.get(`/api/submissions?limit=100${status ? `&status=${status}` : ""}${isLate ? `&isLate=${isLate}` : ""}`).then((r) => (r.data.data as ISubmission[]) || []),
   });
 
   const filtered = data?.filter((s) => {

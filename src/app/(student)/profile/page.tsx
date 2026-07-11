@@ -21,7 +21,7 @@ export default function ProfilePage() {
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["me"],
-    queryFn: () => axios.get("/api/auth/me").then((r) => r.data.data as IUser),
+    queryFn: () => axios.get("/api/auth/me").then((r) => (r.data.data as IUser) || null),
   });
 
   const { register, handleSubmit, watch, setValue, formState: { errors, isSubmitting } } = useForm<UpdateProfileInput>({

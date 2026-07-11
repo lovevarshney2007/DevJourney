@@ -17,7 +17,7 @@ export default function SettingsPage() {
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["auth-user"],
-    queryFn: () => axios.get("/api/auth/me").then((r) => r.data.data as IUser),
+    queryFn: () => axios.get("/api/auth/me").then((r) => (r.data.data as IUser) || null),
   });
 
   const {

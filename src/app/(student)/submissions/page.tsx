@@ -13,7 +13,7 @@ import { ISubmission, ITask } from "@/types";
 export default function MySubmissionsPage() {
   const { data: submissions, isLoading } = useQuery({
     queryKey: ["my-submissions"],
-    queryFn: () => axios.get("/api/submissions?limit=50").then((r) => r.data.data as ISubmission[]),
+    queryFn: () => axios.get("/api/submissions?limit=50").then((r) => (r.data.data as ISubmission[]) || []),
   });
 
   return (

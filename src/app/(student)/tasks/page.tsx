@@ -18,7 +18,7 @@ export default function TasksPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["tasks", domain],
     queryFn: () =>
-      axios.get(`/api/tasks?limit=50${domain ? `&domain=${domain}` : ""}`).then((r) => r.data.data as ITask[]),
+      axios.get(`/api/tasks?limit=50${domain ? `&domain=${domain}` : ""}`).then((r) => (r.data.data as ITask[]) || []),
     refetchInterval: 10000, // Real-time updates every 10 seconds
   });
 

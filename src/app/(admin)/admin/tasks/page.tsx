@@ -22,7 +22,7 @@ export default function AdminTasksPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["admin-tasks", statusFilter],
     queryFn: () =>
-      axios.get(`/api/tasks?limit=100${statusFilter ? `&status=${statusFilter}` : ""}`).then((r) => r.data.data as ITask[]),
+      axios.get(`/api/tasks?limit=100${statusFilter ? `&status=${statusFilter}` : ""}`).then((r) => (r.data.data as ITask[]) || []),
   });
 
   const deleteMutation = useMutation({

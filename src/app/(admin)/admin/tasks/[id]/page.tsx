@@ -18,7 +18,7 @@ export default function AdminTaskDetailPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-task", id],
-    queryFn: () => axios.get(`/api/tasks/${id}`).then((r) => r.data.data.task as ITask),
+    queryFn: () => axios.get(`/api/tasks/${id}`).then((r) => (r.data.data?.task as ITask) || null),
   });
 
   const updateStatusMutation = useMutation({
