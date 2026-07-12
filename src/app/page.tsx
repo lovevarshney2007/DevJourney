@@ -13,7 +13,9 @@ import {
   Monitor,
   CheckCircle2,
   CalendarDays,
-  Smartphone
+  Smartphone,
+  Palette,
+  Cloud
 } from "lucide-react";
 import { HeroCenteredStack } from "@/components/marketing/HeroCenteredStack";
 import { HeroOverlapCollage } from "@/components/marketing/HeroOverlapCollage";
@@ -39,6 +41,16 @@ const domains = [
     icon: <Code2 className="h-5 w-5" />,
     title: "Android Development",
     description: "Develop native mobile applications for the world's most popular OS.",
+  },
+  {
+    icon: <Palette className="h-5 w-5" />,
+    title: "UI/UX Design",
+    description: "Craft intuitive, beautiful, and user-centered digital experiences.",
+  },
+  {
+    icon: <Cloud className="h-5 w-5" />,
+    title: "Cloud Computing",
+    description: "Deploy, scale, and manage applications in the cloud infrastructure.",
   },
 ];
 
