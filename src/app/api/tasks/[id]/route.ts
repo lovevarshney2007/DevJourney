@@ -5,6 +5,7 @@ import { createTaskSchema } from "@/lib/validations";
 import Task from "@/models/Task";
 import Submission from "@/models/Submission";
 import "@/models/User";
+import { redis } from "@/lib/redis";
 
 // GET /api/tasks/[id]
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -62,6 +63,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       return NextResponse.json({ success: false, error: "Task not found" }, { status: 404 });
     }
 
+    // Invalidate cache
+    const keys = await redis.keys("tasks:*");
+    if (keys.length > 0) {
+      await redis.del(...keys);
+    }
+
     return NextResponse.json({ success: true, data: task, message: "Task updated" });
   } catch (error) {
     console.error("[UPDATE TASK]", error);
@@ -83,6 +90,12 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     const task = await Task.findByIdAndDelete(id);
     if (!task) {
       return NextResponse.json({ success: false, error: "Task not found" }, { status: 404 });
+    }
+
+    // Invalidate cache
+    const keys = await redis.keys("tasks:*");
+    if (keys.length > 0) {
+      await redis.del(...keys);
     }
 
     return NextResponse.json({ success: true, message: "Task deleted" });

@@ -69,7 +69,7 @@ export default function EditTaskPage() {
         title: task.title,
         description: task.description,
         points: task.points,
-        deadline: new Date(task.deadline).toISOString().slice(0, 16),
+        deadline: new Date(new Date(task.deadline).getTime() - new Date(task.deadline).getTimezoneOffset() * 60000).toISOString().slice(0, 16),
         domains: task.domains as any,
         pdfUrl: task.pdfUrl || "",
         resources: task.resources,
@@ -123,7 +123,8 @@ export default function EditTaskPage() {
   });
 
   const onSubmit = (data: CreateTaskInput) => {
-    updateMutation.mutate(data);
+    const isoDeadline = new Date(data.deadline).toISOString();
+    updateMutation.mutate({ ...data, deadline: isoDeadline });
   };
 
   if (isLoading) {

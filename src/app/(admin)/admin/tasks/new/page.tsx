@@ -95,7 +95,10 @@ export default function NewTaskPage() {
     },
   });
 
-  const onSubmit = (data: CreateTaskInput) => createMutation.mutate(data);
+  const onSubmit = (data: CreateTaskInput) => {
+    const isoDeadline = new Date(data.deadline).toISOString();
+    createMutation.mutate({ ...data, deadline: isoDeadline });
+  };
 
   return (
     <div className="p-6 max-w-3xl mx-auto">

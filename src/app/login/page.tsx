@@ -31,7 +31,7 @@ export default function LoginPage() {
       const res = await axios.post("/api/auth/login", data);
       const user = res.data.data;
       toast.success(`Welcome back, ${user.name}!`);
-      router.push(user.role === "admin" ? "/admin/dashboard" : "/dashboard");
+      router.push(user.role?.toLowerCase() === "admin" ? "/admin/dashboard" : "/dashboard");
     } catch (err) {
       if (axios.isAxiosError(err)) {
         toast.error(err.response?.data?.error || "Login failed");

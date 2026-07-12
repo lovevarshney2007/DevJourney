@@ -16,7 +16,7 @@ export default async function AdminLayout({
   let user;
   try {
     user = verifyToken(token);
-    if (user.role !== "admin") redirect("/dashboard");
+    if (user.role?.toLowerCase() !== "admin") redirect("/dashboard");
   } catch {
     redirect("/login");
   }

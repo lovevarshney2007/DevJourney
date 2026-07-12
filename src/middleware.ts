@@ -102,7 +102,7 @@ export async function middleware(req: NextRequest) {
     if (token) {
       const payload = decodeJwtPayload(token);
       if (payload) {
-        const dest = payload.role === "admin" ? "/admin/dashboard" : "/dashboard";
+        const dest = payload.role?.toLowerCase() === "admin" ? "/admin/dashboard" : "/dashboard";
         return NextResponse.redirect(new URL(dest, req.url));
       }
     }
@@ -128,7 +128,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Admin-only routes — block students
-  if (pathname.startsWith("/admin") && payload.role !== "admin") {
+  if (pathname.startsWith("/admin") && payload.role?.toLowerCase() !== "admin") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 

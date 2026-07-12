@@ -16,7 +16,7 @@ export default async function StudentLayout({
   let user;
   try {
     user = verifyToken(token);
-    if (user.role !== "student") redirect("/admin/dashboard");
+    if (user.role?.toLowerCase() !== "student") redirect("/admin/dashboard");
   } catch {
     redirect("/login");
   }

@@ -95,12 +95,10 @@ export async function POST(req: NextRequest) {
       importedFrom: "manual",
     });
 
-    // Invalidate cache when a new task is created
-    // Upstash Redis doesn't easily support wildcards in standard commands without scanning,
-    // so for a small project, flushing the entire cache or using a version key is common.
-    // For now, we will simply clear the common student view cache.
-    await redis.del(`tasks:student:all:all:1:10`);
-    await redis.del(`tasks:admin:all:all:1:10`);
+    const keys = await redis.keys("tasks:*");
+    if (keys.length > 0) {
+      await redis.del(...keys);
+    }
 
     return NextResponse.json({ success: true, data: task, message: "Task created" }, { status: 201 });
   } catch (error) {
