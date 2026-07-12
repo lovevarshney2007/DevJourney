@@ -124,9 +124,9 @@ export default function LoginPage() {
                   </a>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-text-secondary">Sarthak Kaushik</span>
-                  <a href="tel:7060321453" className="text-accent-violet hover:text-accent-mint font-medium flex items-center gap-1.5 transition-colors">
-                    <PhoneCall className="h-3.5 w-3.5" /> +91 70603 21453
+                  <span className="text-text-secondary">Ayush Pratap</span>
+                  <a href="tel:9236243578" className="text-accent-violet hover:text-accent-mint font-medium flex items-center gap-1.5 transition-colors">
+                    <PhoneCall className="h-3.5 w-3.5" /> +91 92362 43578
                   </a>
                 </div>
               </div>

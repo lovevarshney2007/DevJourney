@@ -243,9 +243,9 @@ export default function StudentDashboardPage() {
                   <PhoneCall className="h-4 w-4 text-accent-violet" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-text-primary">Sarthak Kaushik</p>
-                  <a href="tel:7060321453" className="text-sm font-medium text-text-secondary hover:text-accent-violet transition-colors">
-                    +91 70603 21453
+                  <p className="text-xs font-semibold text-text-primary">Ayush Pratap</p>
+                  <a href="tel:9236243578" className="text-sm font-medium text-text-secondary hover:text-accent-violet transition-colors">
+                    +91 92362 43578
                   </a>
                 </div>
               </div>
