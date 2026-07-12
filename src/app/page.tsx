@@ -72,16 +72,16 @@ const faqs = [
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-bg-canvas text-text-primary overflow-x-hidden font-sans selection:bg-accent-violet/20 selection:text-accent-violet">
-      
+
       {/* Glassmorphic Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-bg-surface/70 backdrop-blur-md border-b border-white/20 shadow-sm transition-all">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative h-8 w-8 flex-shrink-0 rounded-[4px] border border-border-hairline bg-transparent overflow-hidden">
-              <Image 
-                src="/images/ccclogo.png" 
-                alt="CCC Logo" 
-                fill 
+              <Image
+                src="/images/ccclogo.png"
+                alt="CCC Logo"
+                fill
                 className="object-contain p-0.5 invert opacity-80"
               />
             </div>
@@ -109,8 +109,8 @@ export default function LandingPage() {
       <HeroCenteredStack />
 
       {/* Tech Domains Section */}
-      <motion.section 
-        id="domains" 
+      <motion.section
+        id="domains"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -155,11 +155,11 @@ export default function LandingPage() {
         >
           <source src="/metal-human/metal-human.mp4" type="video/mp4" />
         </video>
-        
+
         {/* Dark overlay for contrast */}
         <div className="absolute inset-0 z-0 bg-black/40"></div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -176,8 +176,8 @@ export default function LandingPage() {
       </section>
 
       {/* Workflow Section */}
-      <motion.section 
-        id="workflow" 
+      <motion.section
+        id="workflow"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -192,7 +192,7 @@ export default function LandingPage() {
             <p className="text-lg text-text-secondary mb-8">
               DevJourney streamlines the entire task submission process, completely eliminating scattered email threads and zip files.
             </p>
-            
+
             <div className="space-y-6">
               {[
                 { step: "01", title: "Claim Tasks", desc: "View detailed requirements, resources, and deadlines for your domain." },
@@ -209,33 +209,33 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-          
+
           <div className="relative p-6 bg-bg-surface border border-border-hairline rounded-xl">
-             <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-               <CheckCircle2 className="h-5 w-5 text-accent-violet" />
-               Submission Pipeline
-             </h3>
-             <div className="space-y-3">
-               <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline rounded-lg opacity-50">
-                 <span className="text-sm">Task 1: Basic UI Layout</span>
-                 <span className="badge-mint">Approved</span>
-               </div>
-               <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline rounded-lg">
-                 <span className="text-sm">Task 2: API Integration</span>
-                 <span className="badge-violet">Pending Review</span>
-               </div>
-               <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline border-dashed rounded-lg opacity-30">
-                 <span className="text-sm">Task 3: Final Project</span>
-                 <span className="badge-gray">Not Submitted</span>
-               </div>
-             </div>
+            <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-accent-violet" />
+              Submission Pipeline
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline rounded-lg opacity-50">
+                <span className="text-sm">Task 1: Basic UI Layout</span>
+                <span className="badge-mint">Approved</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline rounded-lg">
+                <span className="text-sm">Task 2: API Integration</span>
+                <span className="badge-violet">Pending Review</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-transparent border border-border-hairline border-dashed rounded-lg opacity-30">
+                <span className="text-sm">Task 3: Final Project</span>
+                <span className="badge-gray">Not Submitted</span>
+              </div>
+            </div>
           </div>
         </div>
       </motion.section>
 
       {/* FAQ Section */}
-      <motion.section 
-        id="faq" 
+      <motion.section
+        id="faq"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -248,7 +248,7 @@ export default function LandingPage() {
               Frequently asked questions
             </h2>
           </div>
-          
+
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <div key={index} className="bg-transparent border border-border-hairline p-6 rounded-xl">
@@ -265,37 +265,49 @@ export default function LandingPage() {
       </motion.section>
 
       {/* Footer */}
-      <footer className="border-t border-border-hairline bg-transparent py-12 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+      <footer className="relative border-t border-border-hairline bg-black py-12 px-6 overflow-hidden">
+        {/* Background Video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full  object-fill z-0 opacity-40 mix-blend-screen"
+        >
+          <source src="/purple-desert/purple-desert.mp4" type="video/mp4" />
+        </video>
+
+        {/* Footer Content */}
+        <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="relative h-6 w-6 flex-shrink-0 bg-transparent rounded ring-1 ring-border-hairline overflow-hidden">
+              <div className="relative h-6 w-6 flex-shrink-0 bg-transparent rounded ring-1 ring-white/20 overflow-hidden">
                 <Image src="/images/ccclogo.png" alt="CCC Logo" fill className="object-contain p-0.5" />
               </div>
-              <span className="font-semibold text-sm text-text-primary">CCC DevJourney</span>
+              <span className="font-semibold text-sm text-white">CCC DevJourney</span>
             </div>
-            <p className="text-sm text-text-secondary max-w-xs">
+            <p className="text-sm text-white/70 max-w-xs">
               The official productivity and evaluation platform developed by the Cloud Computing Cell, AKGEC.
             </p>
           </div>
           <div>
-            <h4 className="font-medium text-text-primary text-sm mb-4">Platform</h4>
-            <ul className="space-y-3 text-sm text-text-secondary">
-              <li><Link href="#domains" className="hover:text-text-primary transition-colors">Domains</Link></li>
-              <li><Link href="#workflow" className="hover:text-text-primary transition-colors">Workflow</Link></li>
-              <li><Link href="/login" className="hover:text-text-primary transition-colors">Student Login</Link></li>
+            <h4 className="font-medium text-white text-sm mb-4">Platform</h4>
+            <ul className="space-y-3 text-sm text-white/70">
+              <li><Link href="#domains" className="hover:text-white transition-colors">Domains</Link></li>
+              <li><Link href="#workflow" className="hover:text-white transition-colors">Workflow</Link></li>
+              <li><Link href="/login" className="hover:text-white transition-colors">Student Login</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-medium text-text-primary text-sm mb-4">Legal</h4>
-            <ul className="space-y-3 text-sm text-text-secondary">
-              <li><a href="#" className="hover:text-text-primary transition-colors">Privacy Policy</a></li>
+            <h4 className="font-medium text-white text-sm mb-4">Legal</h4>
+            <ul className="space-y-3 text-sm text-white/70">
+              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
             </ul>
           </div>
         </div>
         
-        <div className="max-w-7xl mx-auto pt-8 border-t border-border-hairline flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-text-muted">
+        <div className="relative z-10 max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-white/50">
             © {new Date().getFullYear()} Cloud Computing Cell, AKGEC. All rights reserved.
           </p>
         </div>

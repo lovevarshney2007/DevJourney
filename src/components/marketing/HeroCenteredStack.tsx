@@ -14,38 +14,43 @@ export function HeroCenteredStack() {
       <div className="max-w-7xl mx-auto px-6 sm:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 relative z-10">
         
         {/* Left Column - Text */}
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center relative pr-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 backdrop-blur-sm border border-border-hairline text-[11px] font-mono font-medium text-text-secondary uppercase tracking-widest mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-50"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+            {/* Minimalist Label */}
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-[1px] w-8 bg-text-primary"></div>
+              <span className="text-[10px] font-mono font-medium text-text-primary uppercase tracking-[0.2em]">
+                Recruitment 2026
               </span>
-              Recruitment 2026
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-text-primary tracking-tight mb-6 leading-[1.1]">
-              Prove your <span className="text-accent-violet">skills.</span><br/>Earn your spot.
+            {/* Clean, High-Contrast Typography */}
+            <h1 className="text-6xl sm:text-7xl lg:text-[5rem] font-bold text-text-primary tracking-tighter mb-8 leading-[1.05]">
+              Prove your skills. <br/>
+              <span className="text-text-secondary opacity-70">Earn your spot.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-text-secondary mb-8 max-w-lg leading-relaxed">
+            <p className="text-lg text-text-muted mb-12 max-w-md leading-relaxed font-medium">
               Welcome to the Cloud Computing Cell evaluation portal. Pick your domain, tackle real-world engineering tasks, and submit your code for review.
             </p>
 
-            <div className="flex items-center gap-4">
+            {/* Minimalist Buttons */}
+            <div className="flex items-center gap-6">
               <Link 
                 href="/register" 
-                className="inline-flex items-center justify-center gap-2 text-sm font-medium text-white bg-text-primary border border-text-primary rounded-lg px-7 py-3.5 hover:bg-text-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-sm"
+                className="group relative inline-flex items-center gap-4 bg-text-primary text-bg-surface px-6 py-4 rounded hover:bg-text-primary/90 transition-all"
               >
-                Start your evaluation
+                <span className="text-sm font-semibold tracking-wide">Start evaluation</span>
+                <span className="w-8 h-[1px] bg-bg-surface/50 group-hover:w-12 transition-all duration-300"></span>
               </Link>
+              
               <Link 
                 href="#domains" 
-                className="inline-flex items-center justify-center gap-2 text-sm font-medium text-text-primary bg-transparent border border-border-hairline rounded-lg px-7 py-3.5 hover:bg-bg-surface transition-all duration-200"
+                className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors underline-offset-4 hover:underline"
               >
                 View domains
               </Link>
@@ -70,7 +75,7 @@ export function HeroCenteredStack() {
               playsInline
               className="w-full h-full object-cover rounded-3xl mix-blend-multiply opacity-90"
             >
-              <source src="/glass-flower.mp4" type="video/mp4" />
+              <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-tr from-bg-surface/40 to-transparent rounded-3xl mix-blend-overlay"></div>
           </motion.div>

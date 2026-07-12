@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-XSS-Protection", value: "1; mode=block" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://res.cloudinary.com https://avatars.githubusercontent.com; font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://api.cloudinary.com; frame-src 'self' https://docs.google.com;" }
+          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://res.cloudinary.com https://avatars.githubusercontent.com https://d8j0ntlcm91z4.cloudfront.net; font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://api.cloudinary.com https://d8j0ntlcm91z4.cloudfront.net; frame-src 'self' https://docs.google.com; media-src 'self' https://d8j0ntlcm91z4.cloudfront.net;" }
         ]
       }
     ];
@@ -39,6 +39,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "d8j0ntlcm91z4.cloudfront.net",
       },
     ],
   },

@@ -5,26 +5,31 @@
 @layer base {
   :root {
     /* canvas */
-    --bg-canvas: #F8F9FF; /* Icy blue-white */
+    --bg-canvas: #F7F7F7;
+    /* Soft cool gray */
     --bg-surface: #FFFFFF;
-    --bg-wash-violet: rgba(59, 130, 246, 0.08); /* Electric Blue wash */
-    --bg-wash-mint: rgba(236, 72, 153, 0.06); /* Hot Pink wash */
+    --bg-wash-violet: rgba(0, 0, 0, 0.04);
+    /* Subtle black wash */
+    --bg-wash-mint: rgba(79, 70, 229, 0.04);
+    /* Subtle indigo wash */
 
     /* borders */
-    --border-hairline: #e2e8f0;
-    --border-strong: #cbd5e1;
+    --border-hairline: #E5E5E5;
+    --border-strong: #A3A3A3;
 
     /* text */
-    --text-primary: #1E1B4B; /* Deep indigo */
-    --text-secondary: #4f46e5; /* Muted indigo */
-    --text-muted: #94a3b8;
-    --text-inverse: #ffffff;
+    --text-primary: #111111;
+    /* Almost black */
+    --text-secondary: #525252;
+    /* Medium gray */
+    --text-muted: #A3A3A3;
+    --text-inverse: #FFFFFF;
 
-    /* duotone accent (Mapped to Electric Blue and Hot Pink) */
-    --accent-violet: #3B82F6;
-    --accent-violet-hover: #2563EB;
-    --accent-mint: #EC4899;
-    --accent-mint-hover: #DB2777;
+    /* duotone accent */
+    --accent-violet: #000000;
+    --accent-violet-hover: #333333;
+    --accent-mint: #4F46E5;
+    --accent-mint-hover: #4338CA;
 
     /* signature top strip */
     --top-strip: #0b0b0d;
@@ -56,7 +61,12 @@
     min-height: 100vh;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-inter), system-ui, sans-serif;
     letter-spacing: -0.02em;
     font-weight: 700;
@@ -71,23 +81,28 @@
     width: 8px;
     height: 8px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: var(--border-strong);
     border-radius: 4px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
   }
 }
 
 @layer components {
+
   /* Minimal Flat Card */
   .card {
     @apply bg-bg-surface border border-border-hairline rounded-lg p-5 transition-all duration-150 ease-out;
   }
+
   .card-flat {
     @apply bg-bg-surface border border-border-hairline rounded-lg p-5;
   }
@@ -96,44 +111,54 @@
   .btn {
     @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded font-medium text-sm transition-colors duration-100 disabled:opacity-50 disabled:cursor-not-allowed select-none;
   }
+
   .btn-primary {
     @apply btn bg-accent-violet text-text-inverse hover:bg-accent-violet-hover font-mono uppercase tracking-widest focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-violet focus-visible:ring-offset-1 focus-visible:ring-offset-bg-canvas shadow-glow;
   }
+
   .btn-secondary {
     @apply btn bg-transparent text-text-secondary border border-border-hairline hover:text-text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-violet focus-visible:ring-offset-1 focus-visible:ring-offset-bg-canvas;
   }
+
   .btn-ghost {
     @apply btn text-text-secondary hover:text-text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-violet focus-visible:ring-offset-1 focus-visible:ring-offset-bg-canvas;
   }
+
   .btn-danger {
     @apply btn text-danger border border-danger;
     background-color: rgba(239, 68, 68, 0.1);
   }
+
   .btn-danger:hover {
     background-color: rgba(239, 68, 68, 0.2);
   }
+
   .btn-success {
     @apply btn text-success border border-success;
     background-color: rgba(47, 158, 110, 0.1);
   }
+
   .btn-success:hover {
     background-color: rgba(47, 158, 110, 0.2);
   }
+
   .btn-sm {
     @apply px-2.5 py-1 text-xs;
   }
+
   .btn-lg {
     @apply px-4 py-2 text-base;
   }
 
   /* Input */
   .input {
-    @apply w-full px-3 py-2 bg-bg-surface border border-border-hairline rounded text-text-primary text-sm placeholder:text-text-muted
-           focus:outline-none focus:border-accent-violet focus:ring-1 focus:ring-accent-violet transition-colors duration-100;
+    @apply w-full px-3 py-2 bg-bg-surface border border-border-hairline rounded text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:border-accent-violet focus:ring-1 focus:ring-accent-violet transition-colors duration-100;
   }
+
   .input-error {
     @apply border-danger focus:border-danger focus:ring-danger;
   }
+
   .label {
     @apply block text-sm font-medium text-text-primary mb-1.5 font-mono tracking-tight;
   }
@@ -142,30 +167,39 @@
   .badge {
     @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-mono font-medium uppercase tracking-wider border bg-transparent;
   }
-  .badge-blue, .badge-violet {
+
+  .badge-blue,
+  .badge-violet {
     @apply text-accent-violet border-accent-violet;
   }
+
   .badge-gray {
     @apply text-text-secondary border-text-secondary;
   }
-  .badge-green, .badge-mint {
+
+  .badge-green,
+  .badge-mint {
     @apply text-accent-mint border-accent-mint;
   }
-  .badge-yellow, .badge-orange {
+
+  .badge-yellow,
+  .badge-orange {
     @apply text-warning border-warning;
   }
+
   .badge-red {
     @apply text-danger border-danger;
   }
+
   .late-badge {
     @apply badge badge-red;
   }
 
   /* Sidebar */
   .sidebar-item {
-    @apply flex items-center gap-2.5 px-3 py-2 rounded-md text-text-secondary text-sm font-medium font-mono uppercase tracking-wider
-           hover:text-text-primary transition-colors duration-100 cursor-pointer relative;
+    @apply flex items-center gap-2.5 px-3 py-2 rounded-md text-text-secondary text-sm font-medium font-mono uppercase tracking-wider hover:text-text-primary transition-colors duration-100 cursor-pointer relative;
   }
+
   .sidebar-item-active {
     @apply sidebar-item bg-bg-wash-violet text-text-primary font-semibold;
   }
@@ -174,18 +208,23 @@
   .table-container {
     @apply w-full overflow-x-auto rounded-lg border border-border-hairline bg-bg-surface;
   }
+
   .table {
     @apply w-full border-collapse;
   }
+
   .table th {
     @apply px-4 py-3 text-left text-xs font-mono font-medium text-text-muted uppercase tracking-widest border-b border-border-hairline bg-bg-surface sticky top-0;
   }
+
   .table td {
     @apply px-4 py-3 text-sm text-text-primary border-b border-border-hairline;
   }
+
   .table tr:hover td {
     @apply bg-bg-wash-mint transition-colors duration-100;
   }
+
   .table tr:last-child td {
     @apply border-b-0;
   }
@@ -210,9 +249,11 @@
   .text-balance {
     text-wrap: balance;
   }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
