@@ -6,12 +6,12 @@ import { ALL_DOMAINS } from "@/types";
 export const registerSchema = z.object({
   name: z
     .string()
-    .min(2, "Name must be at least 2 characters")
+    .min(3, "Name must be at least 3 characters")
     .max(50, "Name must be at most 50 characters")
     .trim(),
   studentNumber: z
     .string()
-    .regex(/^\d{7,8}$/, "Student number must be 7 or 8 digits"),
+    .regex(/^25\d{5,6}$/, "Student number must start with 25"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
