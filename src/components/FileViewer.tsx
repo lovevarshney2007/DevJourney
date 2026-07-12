@@ -1,12 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import mammoth from "mammoth";
 import { Skeleton } from "@/components/ui/Common";
+import { Download } from "lucide-react";
 
 // Set worker URL for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 interface FileViewerProps {
   url: string;
@@ -17,6 +21,8 @@ export function FileViewer({ url }: FileViewerProps) {
   const [htmlContent, setHtmlContent] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(800);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const isPdf = url.toLowerCase().includes(".pdf");
   const isDocx = url.toLowerCase().includes(".docx") || url.toLowerCase().includes(".doc");
@@ -38,6 +44,18 @@ export function FileViewer({ url }: FileViewerProps) {
         });
     }
   }, [url, isDocx]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        // Subtract some padding to ensure it fits nicely
+        setContainerWidth(entry.contentRect.width - 32);
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -61,7 +79,23 @@ export function FileViewer({ url }: FileViewerProps) {
   }
 
   return (
-    <div className="w-full h-[600px] overflow-y-auto bg-white rounded-xl relative custom-scrollbar">
+    <div 
+      ref={containerRef}
+      className="w-full h-[600px] overflow-y-auto bg-white rounded-xl relative custom-scrollbar flex flex-col"
+    >
+      <div className="sticky top-4 right-4 z-10 flex justify-end w-full mb-[-40px] pr-4 pt-4 pointer-events-none">
+        <a 
+          href={url} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="pointer-events-auto flex items-center gap-2 bg-slate-900/60 hover:bg-slate-900/80 text-white px-3 py-1.5 rounded-lg backdrop-blur-md transition-all text-sm font-medium shadow-sm"
+          title="Download File"
+        >
+          <Download className="w-4 h-4" />
+          Download
+        </a>
+      </div>
+
       {loading && isDocx && (
         <div className="p-8 space-y-4">
           <Skeleton className="h-8 w-1/3" />
@@ -91,7 +125,8 @@ export function FileViewer({ url }: FileViewerProps) {
                   pageNumber={index + 1}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  width={Math.min(window.innerWidth - 80, 800)}
+                  width={containerWidth ? Math.min(containerWidth, 1000) : undefined}
+                  className="max-w-full"
                 />
               </div>
             ))}

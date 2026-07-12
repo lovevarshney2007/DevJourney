@@ -26,7 +26,7 @@ export default function EditTaskPage() {
 
   const { data: task, isLoading } = useQuery({
     queryKey: ["task", id],
-    queryFn: () => axios.get(`/api/tasks/${id}`).then((r) => (r.data.data as ITask) || null),
+    queryFn: () => axios.get(`/api/tasks/${id}`).then((r) => (r.data.data.task as ITask) || null),
   });
 
   const {
@@ -69,7 +69,7 @@ export default function EditTaskPage() {
         title: task.title,
         description: task.description,
         points: task.points,
-        deadline: new Date(new Date(task.deadline).getTime() - new Date(task.deadline).getTimezoneOffset() * 60000).toISOString().slice(0, 16),
+        deadline: task.deadline ? new Date(new Date(task.deadline).getTime() - new Date(task.deadline).getTimezoneOffset() * 60000).toISOString().slice(0, 16) : "",
         domains: task.domains as any,
         pdfUrl: task.pdfUrl || "",
         resources: task.resources,
