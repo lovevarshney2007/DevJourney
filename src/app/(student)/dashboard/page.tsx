@@ -125,34 +125,41 @@ export default function StudentDashboardPage() {
               />
             ) : (
               <div className="space-y-4">
-                {activeTasks.slice(0, 5).map((task) => (
-                  <Link
+                {activeTasks.slice(0, 5).map((task, idx) => (
+                  <motion.div
                     key={task._id}
-                    href={`/tasks/${task._id}`}
-                    className="flex items-center justify-between p-5 rounded-xl bg-bg-surface border border-border-hairline hover:border-accent-violet/30 hover:bg-bg-wash-violet transition-all duration-200 group hover:shadow-sm"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    whileHover={{ scale: 1.01, x: 4 }}
                   >
-                    <div className="flex-1 min-w-0 mr-4">
-                      <p className="text-base font-semibold text-text-primary truncate group-hover:text-accent-violet transition-colors">
-                        {task.title}
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        {task.domains.slice(0, 2).map((d) => (
-                          <DomainBadge key={d} domain={d} size="sm" />
-                        ))}
-                        <span
-                          className={cn(
-                            "text-[11px]",
-                            isDeadlineSoon(task.deadline) ? "text-warning" : "text-text-muted"
-                          )}
-                        >
-                          Due {formatDate(task.deadline)}
-                        </span>
+                    <Link
+                      href={`/tasks/${task._id}`}
+                      className="flex items-center justify-between p-5 rounded-xl bg-bg-surface border border-border-hairline hover:border-accent-violet/30 hover:bg-bg-wash-violet transition-all duration-200 group hover:shadow-sm"
+                    >
+                      <div className="flex-1 min-w-0 mr-4">
+                        <p className="text-base font-semibold text-text-primary truncate group-hover:text-accent-violet transition-colors">
+                          {task.title}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          {task.domains.slice(0, 2).map((d) => (
+                            <DomainBadge key={d} domain={d} size="sm" />
+                          ))}
+                          <span
+                            className={cn(
+                              "text-[11px]",
+                              isDeadlineSoon(task.deadline) ? "text-warning" : "text-text-muted"
+                            )}
+                          >
+                            Due {formatDate(task.deadline)}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <ArrowRight className="h-5 w-5 text-text-muted group-hover:text-accent-violet transition-colors" />
-                    </div>
-                  </Link>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <ArrowRight className="h-5 w-5 text-text-muted group-hover:text-accent-violet transition-colors" />
+                      </div>
+                    </Link>
+                  </motion.div>
                 ))}
               </div>
             )}
@@ -179,21 +186,28 @@ export default function StudentDashboardPage() {
               <p className="text-sm text-text-muted py-4 text-center">No submissions yet</p>
             ) : (
               <div className="space-y-2.5">
-                {submissions.slice(0, 4).map((sub) => {
+                {submissions.slice(0, 4).map((sub, idx) => {
                   const task = sub.taskId as ITask;
                   return (
-                    <Link
+                    <motion.div
                       key={sub._id}
-                      href={`/submissions/${sub._id}`}
-                      className="block p-4 rounded-xl bg-bg-surface border border-border-hairline hover:border-accent-violet/20 hover:bg-bg-wash-violet transition-all duration-200"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                      whileHover={{ scale: 1.01, x: -4 }}
                     >
-                      <p className="text-xs font-medium text-text-primary truncate">
-                        {task && typeof task === "object" ? task.title : "Deleted Task"}
-                      </p>
-                      <div className="flex items-center gap-2 mt-1.5">
-                        <StatusBadge status={sub.status} isLate={sub.isLate} />
-                      </div>
-                    </Link>
+                      <Link
+                        href={`/submissions/${sub._id}`}
+                        className="block p-4 rounded-xl bg-bg-surface border border-border-hairline hover:border-accent-violet/20 hover:bg-bg-wash-violet transition-all duration-200"
+                      >
+                        <p className="text-xs font-medium text-text-primary truncate">
+                          {task && typeof task === "object" ? task.title : "Deleted Task"}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1.5">
+                          <StatusBadge status={sub.status} isLate={sub.isLate} />
+                        </div>
+                      </Link>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -206,14 +220,21 @@ export default function StudentDashboardPage() {
               <p className="text-sm text-text-muted py-4 text-center">No announcements</p>
             ) : (
               <div className="space-y-3">
-                {announcements.slice(0, 3).map((ann) => (
-                  <div key={ann._id} className="p-4 rounded-xl bg-bg-surface border border-border-hairline">
+                {announcements.slice(0, 3).map((ann, idx) => (
+                  <motion.div 
+                    key={ann._id} 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    whileHover={{ scale: 1.02 }}
+                    className="p-4 rounded-xl bg-bg-surface border border-border-hairline cursor-pointer hover:border-accent-mint/30 hover:shadow-sm transition-all"
+                  >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <p className="text-xs font-medium text-text-primary flex-1">{ann.title}</p>
                       <AnnouncementTypeBadge type={ann.type} />
                     </div>
                     <p className="text-[11px] text-text-muted">{formatRelative(ann.createdAt)}</p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}

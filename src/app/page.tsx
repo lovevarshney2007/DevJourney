@@ -128,17 +128,22 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {domains.map((domain) => (
-              <div
+            {domains.map((domain, idx) => (
+              <motion.div
                 key={domain.title}
-                className="bg-transparent border border-border-hairline p-6 rounded-xl hover:border-accent-violet/30 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="bg-bg-surface border border-border-hairline p-6 rounded-xl hover:border-accent-violet/50 hover:shadow-lg transition-all duration-300 cursor-pointer group"
               >
-                <div className="w-10 h-10 rounded-lg bg-bg-wash-violet border border-border-hairline flex items-center justify-center text-text-primary mb-6">
+                <div className="w-10 h-10 rounded-lg bg-bg-wash-violet border border-border-hairline flex items-center justify-center text-text-primary mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                   {domain.icon}
                 </div>
-                <h3 className="font-semibold text-base text-text-primary mb-2">{domain.title}</h3>
+                <h3 className="font-semibold text-base text-text-primary mb-2 group-hover:text-accent-violet transition-colors">{domain.title}</h3>
                 <p className="text-text-secondary leading-relaxed text-sm">{domain.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
