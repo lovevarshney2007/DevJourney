@@ -7,10 +7,7 @@ import { Skeleton } from "@/components/ui/Common";
 import { Download } from "lucide-react";
 
 // Set worker URL for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface FileViewerProps {
   url: string;
