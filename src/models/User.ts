@@ -14,6 +14,7 @@ export interface IUserDocument extends Document {
   totalPoints: number;
   completedTasks: number;
   comparePassword(candidatePassword: string): Promise<boolean>;
+  ipAddresses?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -63,6 +64,7 @@ const UserSchema = new Schema<IUserDocument>(
     skills: [{ type: String, maxlength: 50 }],
     totalPoints: { type: Number, default: 0 },
     completedTasks: { type: Number, default: 0 },
+    ipAddresses: [{ type: String }],
   },
   {
     timestamps: true,

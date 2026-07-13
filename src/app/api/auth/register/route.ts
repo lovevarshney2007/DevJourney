@@ -72,12 +72,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    
     const user = await User.create({
       name,
       email,
       studentNumber,
       password,
       role: "student",
+      ipAddresses: ip !== "unknown" ? [ip] : [],
     });
 
     // Delete OTP from Redis after successful registration

@@ -37,6 +37,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    if (ip !== "unknown") {
+      if (!user.ipAddresses) user.ipAddresses = [];
+      if (!user.ipAddresses.includes(ip)) {
+        user.ipAddresses.push(ip);
+        await user.save();
+      }
+    }
+
     const token = signToken({
       userId: user._id.toString(),
       email: user.email,

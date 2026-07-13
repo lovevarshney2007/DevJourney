@@ -51,7 +51,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-            <div className="relative h-10 w-10 rounded-xl overflow-hidden ring-2 ring-border-hairline bg-transparent">
+            <div className="relative h-10 w-10 rounded-xl overflow-hidden ring-2 ring-border-hairline bg-white">
               <Image src="/images/ccclogo.png" alt="CCC Logo" fill className="object-contain p-0.5" priority />
             </div>
             <span className="font-bold text-xl text-text-primary">DevJourney</span>

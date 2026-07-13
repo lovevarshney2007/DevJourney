@@ -46,6 +46,7 @@ export interface IUser {
   skills: string[];
   totalPoints: number;
   completedTasks: number;
+  ipAddresses?: string[];
   createdAt: string;
   updatedAt: string;
 }

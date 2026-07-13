@@ -48,6 +48,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="bg-bg-canvas text-text-primary antialiased font-sans">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+              document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+            `
+          }}
+        />
         <div className="fixed top-0 left-0 w-full h-[5px] bg-[var(--top-strip)] z-[9999]" />
         <Providers>{children}</Providers>
       </body>

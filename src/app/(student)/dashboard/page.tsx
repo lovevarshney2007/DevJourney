@@ -29,7 +29,7 @@ interface DashboardData {
 export default function StudentDashboardPage() {
   const { data: tasks, isLoading: tasksLoading } = useQuery({
     queryKey: ["tasks", "published"],
-    queryFn: () => axios.get("/api/tasks?status=published&limit=5").then((r) => (r.data.data as ITask[]) || []),
+    queryFn: () => axios.get("/api/tasks?status=published").then((r) => (r.data.data as ITask[]) || []),
     refetchInterval: 10000, // Real-time updates every 10 seconds
   });
 
@@ -125,7 +125,7 @@ export default function StudentDashboardPage() {
               />
             ) : (
               <div className="space-y-4">
-                {activeTasks.slice(0, 5).map((task, idx) => (
+                {activeTasks.map((task, idx) => (
                   <motion.div
                     key={task._id}
                     initial={{ opacity: 0, x: -10 }}

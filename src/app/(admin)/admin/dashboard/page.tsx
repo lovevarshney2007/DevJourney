@@ -15,6 +15,10 @@ interface AdminDashboardData {
   totalTasks: number;
   publishedTasks: number;
   pendingReviews: number;
+  totalSubmissions: number;
+  totalAnnouncements: number;
+  totalReviews: number;
+  totalAdmins: number;
   recentSubmissions: ISubmission[];
   topStudents: IUser[];
 }
@@ -27,9 +31,11 @@ export default function AdminDashboardPage() {
 
   const stats = [
     { title: "Total Students", value: data?.totalStudents || 0, icon: <Users className="h-5 w-5" />, accentColor: "text-accent-violet" },
+    { title: "Total Admins", value: data?.totalAdmins || 0, icon: <Users className="h-5 w-5" />, accentColor: "text-accent-mint" },
     { title: "Total Tasks", value: data?.totalTasks || 0, icon: <ClipboardList className="h-5 w-5" />, accentColor: "text-accent-mint", description: `${data?.publishedTasks || 0} published` },
-    { title: "Pending Reviews", value: data?.pendingReviews || 0, icon: <Inbox className="h-5 w-5" />, accentColor: "text-accent-violet" },
-    { title: "Active Tasks", value: data?.publishedTasks || 0, icon: <TrendingUp className="h-5 w-5" />, accentColor: "text-accent-mint" },
+    { title: "Total Submissions", value: data?.totalSubmissions || 0, icon: <Inbox className="h-5 w-5" />, accentColor: "text-accent-violet", description: `${data?.pendingReviews || 0} pending` },
+    { title: "Total Reviews", value: data?.totalReviews || 0, icon: <CheckCircle className="h-5 w-5" />, accentColor: "text-accent-mint" },
+    { title: "Announcements", value: data?.totalAnnouncements || 0, icon: <TrendingUp className="h-5 w-5" />, accentColor: "text-accent-violet" },
   ];
 
   return (
@@ -46,7 +52,7 @@ export default function AdminDashboardPage() {
       />
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
         {stats.map((stat, i) => (
           <motion.div
             key={stat.title}

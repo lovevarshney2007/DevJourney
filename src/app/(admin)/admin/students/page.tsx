@@ -4,17 +4,29 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
-import { Search, Users, ChevronRight } from "lucide-react";
+import { Search, Users, ChevronRight, Trash2, ShieldAlert } from "lucide-react";
+import toast from "react-hot-toast";
 import { Avatar, EmptyState, PageHeader, Skeleton } from "@/components/ui/Common";
 import { IUser } from "@/types";
 
 export default function AdminStudentsPage() {
   const [search, setSearch] = useState("");
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["students", search],
     queryFn: () => axios.get(`/api/students?limit=100${search ? `&search=${search}` : ""}`).then((r) => (r.data.data as IUser[]) || []),
   });
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this user? This cannot be undone.")) return;
+    try {
+      await axios.delete(`/api/students/${id}`);
+      toast.success("User deleted successfully");
+      refetch();
+    } catch (err) {
+      toast.error("Failed to delete user");
+    }
+  };
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -44,6 +56,7 @@ export default function AdminStudentsPage() {
                 <th>Points</th>
                 <th>Tasks Done</th>
                 <th>Joined</th>
+                <th>IPs</th>
                 <th></th>
               </tr>
             </thead>
@@ -64,9 +77,31 @@ export default function AdminStudentsPage() {
                   <td><span className="text-text-primary">{student.completedTasks}</span></td>
                   <td className="text-xs text-text-muted">{new Date(student.createdAt).toLocaleDateString()}</td>
                   <td>
-                    <Link href={`/admin/students/${student._id}`} className="btn-ghost btn-sm">
-                      View <ChevronRight className="h-4 w-4" />
-                    </Link>
+                    {student.ipAddresses && student.ipAddresses.length > 0 ? (
+                      <div className="flex flex-col gap-1 text-xs">
+                        {student.ipAddresses.slice(0, 2).map(ip => (
+                          <span key={ip} className="font-mono text-text-secondary">{ip}</span>
+                        ))}
+                        {student.ipAddresses.length > 2 && (
+                          <span className="text-[10px] text-accent-violet">+{student.ipAddresses.length - 2} more</span>
+                        )}
+                        {student.ipAddresses.length > 1 && (
+                          <ShieldAlert className="h-3.5 w-3.5 text-warning inline-block ml-1" title="Multiple IPs detected" />
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-xs text-text-muted">None</span>
+                    )}
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <Link href={`/admin/students/${student._id}`} className="btn-ghost btn-sm">
+                        View <ChevronRight className="h-4 w-4" />
+                      </Link>
+                      <button onClick={() => handleDelete(student._id)} className="btn-ghost btn-sm text-danger hover:bg-danger/10 p-2 rounded-lg">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

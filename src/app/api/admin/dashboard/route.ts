@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
 import { connectDB } from "@/lib/db";
 import { getAuthUser, requireAdmin } from "@/lib/auth";
 import User from "@/models/User";
@@ -25,6 +26,10 @@ export async function GET(req: NextRequest) {
       totalTasks,
       publishedTasks,
       pendingReviews,
+      totalSubmissions,
+      totalAnnouncements,
+      totalReviews,
+      totalAdmins,
       recentSubmissions,
       topStudents,
     ] = await Promise.all([
@@ -32,6 +37,10 @@ export async function GET(req: NextRequest) {
       Task.countDocuments(),
       Task.countDocuments({ status: "published" }),
       Submission.countDocuments({ status: "pending" }),
+      Submission.countDocuments(),
+      mongoose.model("Announcement").countDocuments(),
+      mongoose.model("Review").countDocuments(),
+      User.countDocuments({ role: "admin" }),
       Submission.find()
         .populate("taskId", "title domains")
         .populate("studentId", "name email studentNumber avatar")
@@ -52,6 +61,10 @@ export async function GET(req: NextRequest) {
         totalTasks,
         publishedTasks,
         pendingReviews,
+        totalSubmissions,
+        totalAnnouncements,
+        totalReviews,
+        totalAdmins,
         recentSubmissions,
         topStudents,
       },
