@@ -5,6 +5,8 @@ import { getAuthUser, requireAdmin } from "@/lib/auth";
 import User from "@/models/User";
 import Task from "@/models/Task";
 import Submission from "@/models/Submission";
+import Review from "@/models/Review";
+import Announcement from "@/models/Announcement";
 import { redis } from "@/lib/redis";
 
 // GET /api/admin/dashboard
@@ -38,8 +40,8 @@ export async function GET(req: NextRequest) {
       Task.countDocuments({ status: "published" }),
       Submission.countDocuments({ status: "pending" }),
       Submission.countDocuments(),
-      mongoose.model("Announcement").countDocuments(),
-      mongoose.model("Review").countDocuments(),
+      Announcement.countDocuments(),
+      Review.countDocuments(),
       User.countDocuments({ role: "admin" }),
       Submission.find()
         .populate("taskId", "title domains")
